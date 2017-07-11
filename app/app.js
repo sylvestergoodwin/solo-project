@@ -25,12 +25,7 @@ export default React.createClass ({
 
     const setUserinfo = this.setUserinfo
     if(user.newuser){
-      axios.post( '/api/user', {
-          params: {
-            username: user.username,
-            password: user.password
-          }
-        })
+      axios.post( '/api/user', user)
         .then( function ( result ) {
           setUserinfo({
             username: result.data[0].username,

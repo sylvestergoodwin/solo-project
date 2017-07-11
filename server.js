@@ -249,21 +249,21 @@ app.get("/api/user", function(req, res) {
       })
 });
 
-app.get("/api/user", function(req, res) {
+app.post("/api/user", function(req, res) {
   console.log("api/user")
-  console.log(req.query)
+  console.log(req.body)
     const eff_date = new Date()
     const access_type = 'ADMIN'
     const status = 'ACTIVE'
+    const lastlogin = new Date()
     mysqldb.User.create({
-      email: res.body.email,
-      username: res.body.username,
-      password:res.body.password,
+      email: req.body.username,
+      username: req.body.username,
+      password:req.body.password,
       eff_date: eff_date,
-      exp_date: res.body.exp_date,
       access_type: access_type,
-      status: res.body.status,
-      lastlogin: res.body.lastlogin
+      status: status,
+      lastlogin: lastlogin
       })
       .then(function (data) {
         console.log(data)
