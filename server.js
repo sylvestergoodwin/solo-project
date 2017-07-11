@@ -23,7 +23,10 @@ app.use(express.static("./public"));
 // -------------------------------------------------
 
 // MongoDB Configuration configuration
+// development database
 //mongoose.connect("mongodb://localhost/soloproject");
+
+// production database
 mongoose.connect("mongodb://soloproject:soloproject@ds151202.mlab.com:51202/soloproject")
 var mongodb = mongoose.connection;
 
