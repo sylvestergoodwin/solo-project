@@ -53,8 +53,8 @@ export default React.createClass({
 
 	render(){
 		return (
-			<div classname = 'container'>
-			  <div className="row hoverable">
+			<div className="row hoverable">
+			<div className = 'container'>
 					<div className="col s12">
 						<div className="card-panel">
 
@@ -81,7 +81,7 @@ export default React.createClass({
 
 							<div className="input-field col s12">
 								<input id="icon_prefix3"
-									type="text"
+									type="number"
 									name="SalePrice"
 									value = {this.state.sale_price}
 									onChange={this.onSalePriceChanged}
@@ -91,7 +91,7 @@ export default React.createClass({
 
 							<div className="input-field col s12">
 								<input id="icon_prefix4"
-									type="text"
+									type="number"
 									name="ListPrice"
 									value = {this.state.list_price}
 									onChange={this.onListPriceChanged}
@@ -101,7 +101,7 @@ export default React.createClass({
 
 							<div className="input-field col s12">
 								<input id="icon_prefix5"
-									type="text"
+									type="number"
 									name="Quantity"
 									value = {this.state.quantity}
 									onChange={this.onQuantityChanged}

@@ -10,30 +10,30 @@ export default React.createClass({
 
 	},
 	render(){
-		const total = (Number(this.props.itemdetail.quantity+'') * Number(this.props.itemdetail.sale_price+''))
+		const total = parseFloat(Number(this.props.itemdetail.quantity+'') * Number(this.props.itemdetail.sale_price+'')).toFixed(2)
 		return(<div>
-			<div className='container'>
-				<div className="card-panel">
-				<div className ="row">
-					<div className="col s3">
-						<img className="activator" src="images/a.png" width='40'/>
-					</div>
+				<div className='container'>
+					<div className="card-panel">
+						<div className ="row">
+							<div className="col s3">
+								<img className="activator" src="images/a.png" width='40'/>
+							</div>
 
-					<div className="col s3">
-					List Price: {' $'+this.props.itemdetail.list_price}
-					</div>
-					<div className="col s3">
-					Sale Price: {' $'+this.props.itemdetail.sale_price}
-					<br/>
-					Quantity: {' '+this.props.itemdetail.quantity}
-					</div>
+							<div className="col s3">
+							List Price: {' $'+parseFloat(this.props.itemdetail.list_price).toFixed(2)}
+							</div>
+							<div className="col s3">
+							Sale Price: {' $'+parseFloat(this.props.itemdetail.sale_price).toFixed(2)}
+							<br/>
+							Quantity: {' '+this.props.itemdetail.quantity}
+							</div>
 
-					<div className="col s3">
-					Total Price: {' $'+total}
+							<div className="col s3">
+							Total Price: {' $'+total}
+							</div>
+						</div>
 					</div>
 				</div>
-				</div>
-			</div>
 			</div>
 		)
 	}

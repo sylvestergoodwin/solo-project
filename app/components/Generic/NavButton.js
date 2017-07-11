@@ -4,7 +4,7 @@ import TransitionGroup from 'react-transition-group/TransitionGroup' // ES6
 
 export default React.createClass({
 	render(){
-		if (this.props.userinfo.user_id === -1000){
+		if (false){ //(this.props.userinfo.user_id === -1000){
 			return(
 				<div>
 					<div className="fixed-action-btn">
@@ -25,7 +25,7 @@ export default React.createClass({
 				</div>
 			)
 		}
-		else if (!(this.props.userinfo.user_id === -1000) && (this.props.userinfo.access_type ==='ADMIN')){
+		else if (true) {//(!(this.props.userinfo.user_id === -1000) && (this.props.userinfo.access_type ==='ADMIN')){
 //			<li>
 //				<NavLink to="/User"
 //					className="btn-floating purple tooltipped"

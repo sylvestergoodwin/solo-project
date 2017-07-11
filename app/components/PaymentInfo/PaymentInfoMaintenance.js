@@ -65,7 +65,7 @@ export default React.createClass({
 								value = {this.state.account_number}
 								onChange={this.onAccountNumberChanged}/>
 							<i><b> Expiration Date: </b></i>
-							<input type="text"
+							<input type="date"
 								name="expdate"
 								value = {this.state.exp_date}
 								onChange={this.onExpDateChanged}/>

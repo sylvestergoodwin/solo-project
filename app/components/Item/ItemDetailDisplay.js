@@ -12,6 +12,7 @@ export default React.createClass({
 		this.setState({quantity: event.target.value})
 	},
 	onBuy(){
+		console.log(this.props)
 		axios.post('/api/shopping', {
 				item_id: this.props.itemdetail.item_id,
 				quantity: this.state.quantity,
@@ -31,21 +32,24 @@ export default React.createClass({
 		let displayQuantity = ''
 
 		if (this.props.navcontrol != 'Item'){
-			allowBuy = <BtnDefault action={this.onBuy}
+
+			allowBuy = <div> <hr/> <BtnDefault action={this.onBuy}
 										tooltipposition=""
 										tooltip="Add to shopping cart"
 										buttonicon="shopping_cart"
 									/>
-			displayQuantity = 'Quantity Available: '  +  this.state.quantity
-		}else {
-			displayQuantity = <div className="input-field col s12">
+
+		 <span className="input-field col s3  right">
 											<input id="icon_prefix1"
-												type="text"
+												type="number"
 												name="quantity"
 												value = {this.state.quantity}
 												onChange={this.onQuantityChanged}/>
-											<label htmlFor="icon_prefix1"><i><b>Quantity</b></i></label>
-										</div>
+											<label htmlFor="icon_prefix1"><i><b>Order</b></i></label>
+										</span>
+									</div>
+		}else {
+
 		}
 
 		return (
@@ -70,8 +74,9 @@ export default React.createClass({
 						<p><b><i>Description:</i></b><br/>{this.props.itemdetail.description}</p>
 						<p><b><i>List Price:</i></b> ${this.props.itemdetail.list_price} </p>
 						<p><b><i>Sale Price:</i></b> ${this.props.itemdetail.sale_price} </p>
+						<p><b><i>Available Quantity:</i></b> {this.props.itemdetail.quantity} </p>
+
 						<div>
-							{displayQuantity}
 							{allowBuy}
 						</div>
 					</div>

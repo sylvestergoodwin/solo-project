@@ -19,6 +19,7 @@ export default React.createClass({
 						<div className="left city-gallery-padding">
 							<h1>City Gallery</h1>
 						</div>
+
 						<div className="right padding-right-10">
 							<UsernameDisplay
 								userinfo={this.props.userinfo}

@@ -1,16 +1,65 @@
 import React from 'react'
 import ItemDetailDisplay from '../Item/ItemDetailDisplay'
+import axios from 'axios'
 
 export default React.createClass({
-	render(){		
+	getInitialState(){
+		console.log(this.props.itemdetail)
+		console.log(this.props.itemdetail.item_id)
+		return({
+			itemdetail: {
+				description: this.props.itemdetail.description,
+				name: this.props.itemdetail.name,
+				list_price: 0,
+				sale_price: 0,
+				quantity: 0,
+				item_id: this.props.itemdetail.item_id
+			}
+		})
+	},
+
+	setItemdetail(item){
+		var itemdetail = this.state.itemdetail
+				itemdetail.list_price = item.list_price
+				itemdetail.sale_price = item.sale_price
+				itemdetail.quantity = item.quantity
+
+		this.setState(itemdetail: itemdetail)
+	},
+
+
+	componentDidMount(){
+		const setItem = this.setItemdetail
+		console.log(this.props)
+		console.log(this.state)
+		axios.get( '/api/item', {
+				params: {
+					item_id: this.state.itemdetail.item_id,
+					user_id: this.props.userinfo.user_id
+				}
+			} )
+			.then( function ( result ) {
+				const item = result.data[0]
+				console.log(item)
+				setItem(item)
+			} )
+			.catch( function ( error ) {
+				alert( 'failed' )
+			} );
+	},
+
+
+	render(){
 		return (
 			<div>
 				<div className="search-item">
-					<ItemDetailDisplay itemdetail={this.props.itemdetail}/>
+					<ItemDetailDisplay
+						itemdetail={this.state.itemdetail}
+						userinfo={this.props.userinfo}
+						/>
 				</div>
 				<div className="clearfix"></div>
 			</div>
 		)
 	}
 })
-

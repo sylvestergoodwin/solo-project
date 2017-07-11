@@ -7,7 +7,6 @@ import AddressDisplay from './AddressDisplay'
 import AddressList from './AddressList'
 import AddressMaintenance from './AddressMaintenance'
 import BtnDefault from '../Generic/BtnDefault'
-import AddressUtils from './AddressUtils'
 import axios from 'axios'
 
 export default React.createClass( {
@@ -53,13 +52,12 @@ export default React.createClass( {
   },
 
   onSubmit( address ) {
-    console.log(address)
-
     if (typeof address.address_id == 'undefined') {
       alert('post')
       axios.post('/api/address', address)
         .then(function (response) {
-          console.log(response);
+          //navigate to AddressList
+          this.setState( {activeComponent: 'List'} )
           })
         .catch(function (error) {
           console.log(error);
@@ -69,14 +67,13 @@ export default React.createClass( {
 
       axios.put('/api/address', address)
         .then(function (response) {
-          console.log(response);
+          //navigate to AddressList
+          this.setState( {activeComponent: 'List'} )
           })
         .catch(function (error) {
           console.log(error);
           });
     }
-    //navigate to AddressList
-    this.setState( {activeComponent: 'List'} )
   },
 
 	// user clicked on the cancel button
@@ -113,7 +110,7 @@ export default React.createClass( {
   onDelete( data_item_key ) {
     // post delete of address with the key
     alert('delete '+data_item_key)
-    axios.delete('/api/address', data_item_key)
+    axios.delete('/api/address', {data: {address_id: data_item_key}})
       .then(function (response) {
         console.log(response);
         })
@@ -121,20 +118,79 @@ export default React.createClass( {
         console.log(error);
         });
 
+    this.loadData()
+
     // navigate to the address list
     this.setState( {activeComponent: 'List'} )
   },
 
   buildComponentList( addresslist,  addressAdrray) {
-
-    console.log(addresslist)
-    console.log(addressAdrray)
     this.setState( {
       addressList: addresslist,
 			addressArray: addressAdrray
     } )
   },
 
+  loadData(){
+
+        const onDelete = this.onDelete
+        const onEdit = this.onEdit
+        const buildComponentList = this.buildComponentList
+
+        axios.get( '/api/address', {
+            params: {
+              address_id: 0,
+              user_id: this.props.userinfo.user_id
+            }
+          } )
+          .then( function ( result ) {
+            // navigate to the address list
+            console.log(result.data)
+            const list = result.data.map( function ( addr ) {
+              return (
+    							<div>
+                		<div className = "row hoverable" >
+                			<div className = "col s12" >
+                				<div className = "card-panel" >
+                					<AddressDisplay
+    												address = {addr}
+                						key = {addr.address_id}
+                					/>
+    										</div>
+    									</div>
+    									<br/>
+                			<div className = "row" >
+                				<div className = "col s2 offset-s1" >
+                					<BtnDefault
+    												action = {onEdit}
+    						            tooltipposition = "below"
+    						            tooltip = "Edit"
+    						            buttonicon = "edit"
+    						            data_item_key = {addr.address_id}
+                					/>
+    										</div>
+                				<div className = "col s2" >
+                					<BtnDefault
+    												action = {onDelete}
+    						            tooltipposition = "below"
+    						            tooltip = "Delete"
+    						            buttonicon = "delete"
+    						            data_item_key = {addr.address_id}
+                					/>
+    										</div>
+    									</div>
+    								</div>
+    							</div>
+              	)
+            } )
+            buildComponentList( list,  result.data)
+
+          } )
+          .catch( function ( error ) {
+            alert( 'failed' )
+            console.log( error );
+          } );
+  },
   componentDidMount() {
 
     this.setState( {
@@ -148,63 +204,7 @@ export default React.createClass( {
       }
     } )
 
-
-    const onDelete = this.onDelete
-    const onEdit = this.onEdit
-    const buildComponentList = this.buildComponentList
-
-    axios.get( '/api/address', {
-        params: {
-          address_id: 0,
-          user_id: this.props.userinfo.user_id
-        }
-      } )
-      .then( function ( result ) {
-        // navigate to the address list
-        const list = result.data.map( function ( addr ) {
-          return (
-							<div>
-            		<div className = "row hoverable" >
-            			<div className = "col s12" >
-            				<div className = "card-panel" >
-            					<AddressDisplay
-												address = {addr}
-            						key = {addr.address_id}
-            					/>
-										</div>
-									</div>
-									<br/>
-            			<div className = "row" >
-            				<div className = "col s2 offset-s1" >
-            					<BtnDefault
-												action = {onEdit}
-						            tooltipposition = "below"
-						            tooltip = "Edit"
-						            buttonicon = "edit"
-						            data_item_key = {addr.address_id}
-            					/>
-										</div>
-            				<div className = "col s2" >
-            					<BtnDefault
-												action = {onDelete}
-						            tooltipposition = "below"
-						            tooltip = "Delete"
-						            buttonicon = "delete"
-						            data_item_key = {addr.address_id}
-            					/>
-										</div>
-									</div>
-								</div>
-							</div>
-          	)
-        } )
-        buildComponentList( list,  result.data)
-
-      } )
-      .catch( function ( error ) {
-        alert( 'failed' )
-        console.log( error );
-      } );
+    this.loadData()
   },
 
   render() {

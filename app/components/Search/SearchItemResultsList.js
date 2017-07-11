@@ -6,40 +6,30 @@ import SearchItemResultsDisplay from './SearchItemResultsDisplay'
 // an array of all the matches. This component will pass each individual item that matches
 // to a ItemSearchResultsDisplay component for display to the user
 export default React.createClass({
-
-	buildList: function (){
-		var itemList = [];
-
-		for (var i=0; i < 4; i++){
-			itemList.push({
-				name: 'Woman in Red',
-				description: 'Image of a woman in red sitting alone in a room',
-				price: 23.92
-			});
-		}
-
-		return itemList.map(function(item){
-			return (<div className="item-detail-display" >
-						<div className="row hoverable left">
-							<div className="col s12">
-								<div className="card-panel">
-									<SearchItemResultsDisplay itemdetail={item}/>
-								</div>
-							</div>
-						</div>
-					</div>
-			)
-		});
+	getInitialState(){
+		return ({
+			searchResult: this.props.searchResult
+		})
 	},
-
-
-	render(){
-		var gg = this.buildList()
-
+render(){
+		let display = ''
+//		console.log(this.props)
+//		console.log(this.state)
+//		console.log(this.props.resultcount)
+		if (this.props.resultcount == 0) {
+			display = <div></div>
+		} else {
+			display = <div>
+									<div>
+										{this.props.searchResult}
+									</div>
+									<div className="clearfix">
+									</div>
+								</div>
+		}
 		return (
 			<div>
-				<div>{gg}</div>
-				<div className="clearfix"></div>
+				{display}
 			</div>
 		)
 	}

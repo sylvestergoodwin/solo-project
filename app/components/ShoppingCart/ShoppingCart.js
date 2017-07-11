@@ -20,6 +20,31 @@ export default React.createClass({
 			itemArray: []
 		}
 	},
+	onBuy(){
+		alert("buy Buy bUy")
+		const user_id = this.props.userinfo.user_id
+
+		axios.post('/api/buy', {user_id: user_id})
+			.then(function (response) {
+				console.log(response);
+				})
+			.catch(function (error) {
+				console.log(error);
+				});
+	},
+	onDelete(itemsale_id){
+		alert(itemsale_id)
+		axios.delete('/api/itemsale', {data: {itemsale_id: itemsale_id}})
+			.then(function (response) {
+				console.log(response);
+				})
+			.catch(function (error) {
+				console.log(error);
+				});
+
+		// navigate to the address list
+		this.setState( {activeComponent: 'List'} )
+	},
 	buildComponentList( itemlist,  itemArray) {
 		this.setState( {
 			itemList: itemlist,
@@ -31,7 +56,7 @@ export default React.createClass({
 	      actionlist: {
 	      }
 	    })
-
+			const onDelete = this.onDelete
 	    const buildComponentList = this.buildComponentList
 			const userinfo = this.props.userinfo
 	    axios.get( '/api/shopping', {
@@ -48,8 +73,17 @@ export default React.createClass({
           					<ShoppingCartItem
           						itemdetail = {item}
 											userinfo={userinfo}
-											key={item.item_id}
+											key={item.itemsale_id}
           					/>
+										<div>
+											<BtnDefault
+												tooltipposition="below"
+												tooltip="Delete Shopping Cart Item"
+												buttonicon="delete"
+												action={onDelete}
+												data_item_key={item.itemsale_id}
+											/>
+										</div>
 									</div>
 								</div>
 	          	)
@@ -74,6 +108,8 @@ export default React.createClass({
 		},
 	render(){
 		let addressList = {}
+		let componentdisplay = <div><i>Currently No items In Shopping Cart</i></div>
+
 		if (this.state.showAddress === 'Yes') {
 			 addressList = <div>
 				<ShoppingCartAddressList
@@ -109,24 +145,22 @@ export default React.createClass({
 			<span>Select the payment for this order</span>
 			</div>
 		}
-		return(
-			<div><div className="row hoverable">
-												<div className="col s12">
-													<div className="card-panel">
 
-
-				{addressList}
-				</div>
-				</div>
+		if (this.state.itemArray.length !==0){
+			componentdisplay = <div>
+				<div className="row hoverable">
+					<div className="col s12">
+						<div className="card-panel">
+							{addressList}
+						</div>
+					</div>
 				</div>
 				<div className="row hoverable">
-													<div className="col s12">
-														<div className="card-panel">
-
-
-				{paymentList}
-				</div>
-				</div>
+					<div className="col s12">
+						<div className="card-panel">
+							{paymentList}
+						</div>
+					</div>
 				</div>
 				<div>
 					<ShoppingCartList
@@ -137,14 +171,18 @@ export default React.createClass({
 						itemArray={this.state.itemArray}
 						userinfo={this.props.userinfo}
 					/>
-
-						<BtnDefault action={this.onCancel}
-							tooltipposition="below"
-							tooltip="Complete Purchase"
-							buttonicon="send"
-							data_item_key="null"
-						/>
+					<BtnDefault action={this.onBuy}
+						tooltipposition="below"
+						tooltip="Complete Purchase"
+						buttonicon="send"
+						data_item_key="null"
+					/>
 				</div>
+			</div>
+		}
+		return(
+			<div>
+				{componentdisplay}
 			</div>
 		)
 	}

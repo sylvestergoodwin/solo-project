@@ -8,8 +8,12 @@ export default React.createClass({
 		return({
 			emailaddress: '',
 			password: '',
-			confirmpassword: ''
+			confirmpassword: '',
+			newuser: false
 		})
+	},
+	onNewuser(){
+		this.setState({newuser: true})
 	},
 	onEmailAddressChanged(event){
 		this.setState({
@@ -19,16 +23,43 @@ export default React.createClass({
 	onPasswordChanged(event){
 		this.setState({password: event.target.value})
 	},
+	onConfirmPasswordChanged(event){
+		this.setState({confirmpassword: event.target.value})
+	},
+	onNewUser(){
+		this.setState({newuser: true})
+	},
 	onSubmit(){
 		this.props.actionlist.onSubmit({email: this.state.emailaddress,
 			username: this.state.emailaddress,
-			password: this.state.password
+			password: this.state.password,
+			newuser: this.state.newuser
+		})
+		this.setState({
+			newuser: false
 		})
 	},
 	onCancel(){
 		this.props.actionlist.onCancel()
 	},
 	render(){
+		let allowchange = <div>
+			<BtnDefault action={this.onNewUser}
+				tooltipposition="below"
+				tooltip="New User"
+				buttonicon="accountplus"
+				/>
+			</div>
+		if (this.state.newuser) {
+			allowchange = <div>
+				 <i><b>Confirm Password: </b></i>
+				 <input type="text"
+					 name="confirmpassword"
+					 value = {this.state.confirmpassword}
+					 onChange={this.onConfirmPasswordChanged}
+				 />
+			 </div>
+		}
 		return (
 			<div className='container search-text'>
 			  <div className="hoverable">
@@ -43,10 +74,11 @@ export default React.createClass({
 								/>
 								<i><b>Password: </b></i>
 								<input type="text"
-									name="email"
+									name="password"
 									value = {this.state.password}
 									onChange={this.onPasswordChanged}
 								/>
+								{allowchange}
 							</div>
 						</div>
 					</div>

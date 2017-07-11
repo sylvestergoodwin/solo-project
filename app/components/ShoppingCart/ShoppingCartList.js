@@ -8,9 +8,6 @@ export default React.createClass({
 				<div>
 					{this.props.itemlist}
 				</div>
-				<div>
-				
-				</div>
 			</div>
 		)
 	}

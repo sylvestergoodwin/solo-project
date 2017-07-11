@@ -22,6 +22,10 @@ var ItemSchema = new Schema({
   description: {
 	  type: String,
 	  required: true
+  },
+  keywords: {
+    type: Array,
+    "default": [] 
   }
 });
 

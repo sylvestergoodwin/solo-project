@@ -74,7 +74,7 @@ export default React.createClass({
 					const payments = results.data.map(function(payment){
 						return (<div>
 									<div className="row hoverable">
-										<div className="col s12 m5">
+										<div className="container">
 											<div className="card-panel">
 												<PaymentInfoDisplay
 													paymentdetail={payment}

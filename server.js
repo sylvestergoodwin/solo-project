@@ -42,9 +42,10 @@ mongodb.once("open", function() {
 var mysqldb = require("./server/db/mysql/models");
 
 // Syncing our sequelize models and then starting our express app
-mysqldb.sequelize.sync({ force: false })
+mysqldb.sequelize.sync({ force: true })
 	.then(function() {
 		console.log("mysql Connection Successfull");
+    console.log("----------------------------------------------------------------.");
 	})
 	.catch(function (){
 		console.log("mysql Connection failed")
@@ -121,8 +122,14 @@ app.get("/api/address", function(req, res) {
 
 app.delete("/api/address", function(req, res) {
   console.log("delete api/address")
-  console.log(req.body)
+  console.log(req)
+  mysqldb.Address.destroy({
+    where: {address_id: req.body.address_id}
+  })
+  .then(deleted => {
+    console.log('deleted '+req.body.address_id)
     res.send('OK')
+  })
 });
 
 // Route
@@ -206,14 +213,20 @@ app.get("/api/item", function(req, res) {
           console.log(data)
           res.json(data)
         })
-
     }
 });
 
+
 app.delete("/api/item", function(req, res) {
-    console.log("delete api/item")
-    console.log(req.body)
+  console.log("delete api/item")
+  console.log(req)
+  mysqldb.Payment.destroy({
+    where: {item_id: req.body.item_id}
+  })
+  .then(deleted => {
+    console.log('deleted '+req.body.item_id)
     res.send('OK')
+  })
 });
 
 
@@ -233,15 +246,50 @@ app.get("/api/user", function(req, res) {
       })
 });
 
+app.get("/api/user", function(req, res) {
+  console.log("api/user")
+  console.log(req.query)
+    const eff_date = new Date()
+    const access_type = 'ADMIN'
+    const status = 'ACTIVE'
+    mysqldb.User.create({
+      email: res.body.email,
+      username: res.body.username,
+      password:res.body.password,
+      eff_date: eff_date,
+      exp_date: res.body.exp_date,
+      access_type: access_type,
+      status: res.body.status,
+      lastlogin: res.body.lastlogin
+      })
+      .then(function (data) {
+        console.log(data)
+        res.json(data)
+      })
+});
+
+
 //Route search
 app.get("/api/search", function(req, res){
-  console.log("api/searcherrr")
+  console.log("api/searchooooooo")
   console.log(req.query)
 
-  ItemDetail.find({keywords: {$in: req.query.searchText.split(',')}}, function(err, data){
-    console.log(data)
-    res.json(data)
-  })
+    var itemList = []
+
+		for (var i=0; i < 4; i++){
+			itemList.push({
+				name: 'Woman in GOLD Red',
+				description: 'Image of a woman in red sitting alone in a room',
+        item_id: (400+i)
+			});
+		}
+    console.log(itemList)
+    res.json(itemList)
+
+//  ItemDetail.find({keywords: {$in: req.query.searchText.split(',')}}, function(err, data){
+//    console.log(data)
+//    res.json(data)
+//  })
 })
 
 
@@ -260,6 +308,19 @@ app.get("/api/shopping", function(req, res){
         res.json(data)
       })
 
+})
+
+app.delete("/api/itemsale", function(req, res){
+    console.log("deleting api/itemsale")
+    console.log(req.body)
+    mysqldb.ItemSale.destroy({
+      where: {itemsale_id: req.body.itemsale_id,
+      }
+    })
+    .then(function (data){
+      console.log(data)
+      res.json(data)
+    })
 })
 
 app.post("/api/shopping", function(req, res){
@@ -281,7 +342,7 @@ app.post("/api/shopping", function(req, res){
 app.post("/api/buy", function(req, res){
     console.log("post api/shopping")
     console.log(req)
-    mysqldb.Itemsale.create({
+    mysqldb.ItemSale.create({
       user_id: req.body.user_id
     })
     .then(function (itemsale){
@@ -317,7 +378,7 @@ app.put("/api/paymentinfo", function(req, res) {
     console.log("put api/paymentinfo")
     console.log(req.body)
 
-    mysqldb.Address.update(
+    mysqldb.Payment.update(
       {account_name: req.body.account_name,
       user_id: req.body.user_id,
       payment_type: req.body.payment_type,
@@ -329,6 +390,19 @@ app.put("/api/paymentinfo", function(req, res) {
     })
     .then(newAddr => {console.log(newAddr)});
     res.send('OK')
+});
+
+
+app.delete("/api/paymentinfo", function(req, res) {
+  console.log("delete api/paymentinfo")
+  console.log(req)
+  mysqldb.Payment.destroy({
+    where: {payment_id: req.body.payment_id}
+  })
+  .then(deleted => {
+    console.log('deleted '+req.body.payment_id)
+    res.send('OK')
+  })
 });
 
 

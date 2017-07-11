@@ -3,7 +3,6 @@ import PaymentInfoList from './PaymentInfoList'
 import PaymentInfoDisplay from './PaymentInfoDisplay'
 import PaymentInfoMaintenance from './PaymentInfoMaintenance'
 import BtnDefault from '../Generic/BtnDefault'
-import PaymentInfoUtils from './PaymentInfoUtils'
 import axios from 'axios'
 
 export default React.createClass({
@@ -42,7 +41,14 @@ export default React.createClass({
 	},
 
 	onDelete(payment_id){
-		PaymentInfoUtils.deletePaymentInfo(payment_id)
+		alert('delete '+data_item_key)
+		axios.delete('/api/paymentinfo', {data: {payment_id: payment_id}})
+			.then(function (response) {
+				console.log(response);
+				})
+			.catch(function (error) {
+				console.log(error);
+				});
 
 		this.setState({activeComponent: 'List'})
 
@@ -146,34 +152,26 @@ export default React.createClass({
 			.then(function (results) {
 				console.log(results.data)
 				const payments = results.data.map(function(payment){
-					return (<div>
+					return (
+						<div>
 								<div className="row hoverable">
-									<div className="col s12 m5">
+									<div className="col s12">
 										<div className="card-panel">
 											<PaymentInfoDisplay
 												paymentdetail={payment}
 												userinfo={userinfo}
 												/>
-											<div>
-												<div className="col s2">
-													<BtnDefault action={onDelete}
-														tooltipposition="below"
-														tooltip="Delete"
-														buttonicon="delete"
-														data_item_key={payment.payment_id}
-													/>
-
-												</div>
-												<div className="col s2">
-													<BtnDefault action={onSelect}
-														tooltipposition="below"
-														tooltip="Select"
-														buttonicon="check_circle"
-														data_item_key={payment.payment_id}
-													/>
-												</div>
 											</div>
 										</div>
+										<div>
+											<div className="col s2">
+												<BtnDefault action={onDelete}
+													tooltipposition="below"
+													tooltip="Delete"
+													buttonicon="delete"
+													data_item_key={payment.payment_id}
+												/>
+											</div>
 									</div>
 								</div>
 							</div>
@@ -208,35 +206,35 @@ export default React.createClass({
 		}
 
 		if(	this.state.activeComponent == 'List'){
-		return (
-			<div>
-				<h1>PAYMENTS</h1>
-				<PaymentInfoList
-					paymentlist={this.state.paymentList}
-					userinfo={this.props.userinfo}
-					action={actionlist}/>
-			</div>
+			return (
+				<div>
+					<h1>PAYMENTS</h1>
+					<PaymentInfoList
+						paymentlist={this.state.paymentList}
+						userinfo={this.props.userinfo}
+						action={actionlist}/>
+				</div>
 		)
 	} else if(this.state.activeComponent == 'Edit'){
-		return (
-			<div>
-				<PaymentInfoMaintenance
-					paymentdetail={payment}
-					userinfo={this.props.userinfo}
-					action={this.state.actionlist}
-				/>
-			</div>
-		)
+			return (
+				<div>
+					<PaymentInfoMaintenance
+						paymentdetail={payment}
+						userinfo={this.props.userinfo}
+						action={this.state.actionlist}
+					/>
+				</div>
+			)
 	} else if(this.state.activeComponent == 'New'){
-		return (
-			<div>
-				<PaymentInfoMaintenance
-					paymentdetail={this.state.payment}
-					userinfo={this.props.userinfo}
-					action={this.state.actionlist}
-				/>
-			</div>
-		)
+			return (
+				<div>
+					<PaymentInfoMaintenance
+						paymentdetail={this.state.payment}
+						userinfo={this.props.userinfo}
+						action={this.state.actionlist}
+					/>
+				</div>
+			)
 	}
 	}
 })

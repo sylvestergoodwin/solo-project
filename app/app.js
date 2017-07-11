@@ -24,23 +24,44 @@ export default React.createClass ({
   userLogin(user){
 
     const setUserinfo = this.setUserinfo
-        axios.get( '/api/user', {
-            params: {
-              username: user.username,
-              password: user.password
-            }
+    if(user.newuser){
+      axios.post( '/api/user', {
+          params: {
+            username: user.username,
+            password: user.password
+          }
+        })
+        .then( function ( result ) {
+          setUserinfo({
+            username: result.data[0].username,
+            user_id: result.data[0].user_id,
+            access_type: result.data[0].access_type
           })
-          .then( function ( result ) {
-            setUserinfo({
-              username: result.data[0].username,
-              user_id: result.data[0].user_id,
-              access_type: result.data[0].access_type
-            })
+        })
+        .catch( function ( error ) {
+          alert( 'failed' )
+          console.log( error );
+        });
+    }else {
+      axios.get( '/api/user', {
+          params: {
+            username: user.username,
+            password: user.password
+          }
+        })
+        .then( function ( result ) {
+          setUserinfo({
+            username: result.data[0].username,
+            user_id: result.data[0].user_id,
+            access_type: result.data[0].access_type
           })
-          .catch( function ( error ) {
-            alert( 'failed' )
-            console.log( error );
-          });
+        })
+        .catch( function ( error ) {
+          alert( 'failed' )
+          console.log( error );
+        });
+    }
+
   },
 
   setUserinfo(userinfo){
