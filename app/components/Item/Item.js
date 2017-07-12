@@ -189,7 +189,8 @@ export default React.createClass({
 		if (this.state.activeComponent == 'New')
 		{
 			return (
-				<div> <h1>ITEMS</h1>
+				<div>
+					<div><h3><i>Enter Item Detail</i></h3></div>
 					<ItemDetailMaintenance
 						itemdetail={this.state.item}
 						userinfo={this.props.userinfo}
@@ -199,7 +200,8 @@ export default React.createClass({
 			)
 		}else if (this.state.activeComponent == 'Edit') {
 			return (
-				<div> <h1>ITEMS</h1>
+				<div>
+					<div><h3><i>Item Maintenance</i></h3></div>
 					<ItemDetailMaintenance
 						itemdetail={this.state.item}
 						action={this.state.actionlist}
@@ -209,7 +211,8 @@ export default React.createClass({
 			)
 		}else {
 			return (
-				<div> <h1>ITEMS</h1>
+				<div>
+					<div><h3><i>Item List</i></h3></div>
 					<ItemDetailList
 						itemlist={this.state.itemList}
 						action={this.state.actionlist}

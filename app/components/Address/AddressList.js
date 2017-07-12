@@ -6,11 +6,11 @@ export default React.createClass({
 	onNew(){
 		this.props.actionlist.onNew()
 	},
+
 	onCancel(){
 		this.props.actionlist.onCancel()
-
-		// navigate to the prior page
 	},
+
 	render(){
 		return (
 			<div>

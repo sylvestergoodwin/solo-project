@@ -8,10 +8,6 @@ export default React.createClass({
 		alert(searchText)
 	},
 	render(){
-		//<div className="row">
-		//	<SearchItemCriteria action={this.onSearchSubmitted}/>
-		//</div>
-		//this.onSearchSubmitted = this.onSearchSubmitted.bind(this)
 		return (
 			<div className="banner site-color">
 				<div className="collection">

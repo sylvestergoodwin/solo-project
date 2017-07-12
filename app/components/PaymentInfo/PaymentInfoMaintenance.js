@@ -48,7 +48,7 @@ export default React.createClass({
 			<div>
 			    <div className="row hoverable">
 					<div className="col s12">
-						<div className="card-panel lilac">
+						<div className="card-panel">
 							<i><b> Name On Account:</b></i>
 							<input type="text"
 								name="accountname"

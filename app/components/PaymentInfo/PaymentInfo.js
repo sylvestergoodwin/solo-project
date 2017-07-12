@@ -208,7 +208,7 @@ export default React.createClass({
 		if(	this.state.activeComponent == 'List'){
 			return (
 				<div>
-					<h1>PAYMENTS</h1>
+					<div><h3><i>Credit Card List</i></h3></div>
 					<PaymentInfoList
 						paymentlist={this.state.paymentList}
 						userinfo={this.props.userinfo}
@@ -218,6 +218,7 @@ export default React.createClass({
 	} else if(this.state.activeComponent == 'Edit'){
 			return (
 				<div>
+					<div><h3><i>Credit Card Maintenance</i></h3></div>
 					<PaymentInfoMaintenance
 						paymentdetail={payment}
 						userinfo={this.props.userinfo}
@@ -228,6 +229,7 @@ export default React.createClass({
 	} else if(this.state.activeComponent == 'New'){
 			return (
 				<div>
+					<div><h3><i>Enter Credit Card Information</i></h3></div>
 					<PaymentInfoMaintenance
 						paymentdetail={this.state.payment}
 						userinfo={this.props.userinfo}

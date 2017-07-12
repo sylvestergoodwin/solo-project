@@ -26,7 +26,7 @@ export default React.createClass ({
 				<div>
 					<Route exact={true} path="/" component={ () => (<Home userinfo={this.props.userinfo} />)}></Route>
 					<Route path="/Address" component={ () => (<Address userinfo={this.props.userinfo} />)} ></Route>
-					<Route path="/Search" component={ () => (<Search userinfo={this.props.userinfo} />)}></Route>
+					<Route path="/Search" component={ () => (<Search userinfo={this.props.userinfo} navcontrol='Menu' />)}></Route>
 					<Route exact path="/PaymentInfo" component={ () => (<PaymentInfo userinfo={this.props.userinfo} />)}></Route>
 					<Route path="/PaymentInfo/:payment_id" component={ () => (<PaymentInfoMaintenance userinfo={this.props.userinfo} />)}></Route>
 					<Route path="/Item" component={ () => (<Item userinfo={this.props.userinfo} />)}></Route>

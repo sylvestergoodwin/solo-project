@@ -79,12 +79,12 @@ export default React.createClass({
 								name="city"
 								value = {this.state.city}
 								onChange={this.onCityChanged}/>
-							<i><b> State:</b></i>
+							<i><b> Region / State:</b></i>
 							<input type="text"
 								name="state"
 								value = {this.state.state}
 								onChange={this.onStateChanged}/>
-							<i><b> Zip:</b></i>
+							<i><b> Postal Code / Zip:</b></i>
 							<input type="text"
 								name="zip"
 								value = {this.state.zip}
@@ -97,7 +97,6 @@ export default React.createClass({
 						</div>
 					</div>
 					<div className="row">
-
 						<div className="col s2 offset-s1">
 							<BtnDefault action={this.onSubmit}
 								tooltipposition="below"

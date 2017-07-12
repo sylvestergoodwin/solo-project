@@ -58,7 +58,7 @@ export default React.createClass({
 					<div className="col s12">
 						<div className="card-panel">
 
-							<div className="input-field col s12">
+							<div className="col s12">
 								<input id="icon_prefix1"
 									type="text"
 									name="itemname"
@@ -68,7 +68,7 @@ export default React.createClass({
 								<label htmlFor="icon_prefix1"><i><b>Item Name</b></i></label>
 							</div>
 
-							<div className="input-field col s12">
+							<div className=" col s12">
 								<textarea id="icon_prefix2"
 									className="materialize-textarea"
 									name="description"
@@ -79,7 +79,7 @@ export default React.createClass({
 							</div>
 
 
-							<div className="input-field col s12">
+							<div className="col s12">
 								<input id="icon_prefix3"
 									type="number"
 									name="SalePrice"
@@ -89,7 +89,7 @@ export default React.createClass({
 								<label htmlFor="icon_prefix3"><i><b> Sale Price:</b></i></label>
 							</div>
 
-							<div className="input-field col s12">
+							<div className="col s12">
 								<input id="icon_prefix4"
 									type="number"
 									name="ListPrice"
@@ -99,7 +99,7 @@ export default React.createClass({
 								<label htmlFor="icon_prefix4"><i><b> List Price:</b></i></label>
 							</div>
 
-							<div className="input-field col s12">
+							<div className="col s12">
 								<input id="icon_prefix5"
 									type="number"
 									name="Quantity"
@@ -109,7 +109,7 @@ export default React.createClass({
 								<label htmlFor="icon_prefix5"><i><b> Quantity:</b></i></label>
 							</div>
 
- 							<div className="input-field col s12">
+ 							<div className="col s12">
 								<input id="icon_prefix6"
 									type="text"
 									name="ImageFile"
@@ -119,7 +119,7 @@ export default React.createClass({
 								<label htmlFor="icon_prefix6"><i><b> Image File:</b></i></label>
 							</div>
 
-   						<div className="input-field col s12">
+   						<div className="col s12">
 								<input id="icon_prefix7"
 									type="text"
 									name="searchkeyword"

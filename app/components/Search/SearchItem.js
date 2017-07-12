@@ -14,8 +14,8 @@ export default React.createClass({
 	},
 
 	componentDidMount(){
-		if (this.props.origin === 'HOME'){
-			this.onSearchSubmitted('OOOJJJBGG')
+		if (this.props.navcontrol === 'HOME'){
+			this.onSearchSubmitted(this.props.search)
 		}
 	},
 
@@ -69,7 +69,7 @@ export default React.createClass({
 	},
 	render(){
 
-		if (this.props.origin !== 'HOME') {
+		if (this.props.navcontrol !== 'HOME') {
 			return (
 				<div>
 					<div>
