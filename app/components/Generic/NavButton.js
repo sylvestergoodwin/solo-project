@@ -25,7 +25,7 @@ export default React.createClass({
 				</div>
 			)
 		}
-		else if (!(this.props.userinfo.user_id === -1000) && (this.props.userinfo.access_type ==='ADMIN')){
+		else if ((this.props.userinfo.user_id !== -1000) && (this.props.userinfo.access_type ==='ADMIN')){
 //			<li>
 //				<NavLink to="/User"
 //					className="btn-floating purple tooltipped"
@@ -94,6 +94,14 @@ export default React.createClass({
 							<i className="large material-icons">menu</i>
 						</a>
 						<ul>
+							<li>
+								<NavLink to="/Search"
+									className="btn-floating purple tooltipped"
+									data-position="left"
+									data-tooltip="User Maintenance" >
+									<i className="material-icons">search</i>
+								</NavLink>
+							</li>
 							<li><NavLink to="/Address"
 									className="btn-floating purple tooltipped"
 									data-position="left"

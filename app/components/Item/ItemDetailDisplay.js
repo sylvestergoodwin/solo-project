@@ -56,7 +56,7 @@ export default React.createClass({
 			<div className="item-base">
 				<div className="card">
 					<div className="card-image waves-effect waves-block waves-light">
-						<img className="activator" src="images/a.png"/>
+						<img className="activator" src={this.props.itemdetail.link}/>
 					</div>
 					<div className="card-content">
 						<span className="card-title activator grey-text text-darken-4">

@@ -13,6 +13,7 @@ export default React.createClass({
 				list_price: 0,
 				sale_price: 0,
 				quantity: 0,
+				link: this.props.itemdetail.link,
 				item_id: this.props.itemdetail.item_id
 			}
 		})

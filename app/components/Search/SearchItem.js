@@ -14,12 +14,12 @@ export default React.createClass({
 	},
 
 	componentDidMount(){
-	//	this.onSearchSubmitted('OOOJJJBGG')
+		if (this.props.origin === 'HOME'){
+			this.onSearchSubmitted('OOOJJJBGG')
+		}
 	},
 
 		buildComponentList( itemList,  itemArray) {
-//			console.log(itemList)
-//			console.log(itemArray)
 	    this.setState( {
 	      searchResult: itemList,
 				searchArray: itemArray
@@ -68,21 +68,35 @@ export default React.createClass({
 		      } );
 	},
 	render(){
-//		console.log(this.props)
-//		console.log(this.state)
-//		console.log(this.state.searchArray.length)
-		return (
-			<div>
-				<SearchItemCriteria
-					userinfo={this.props.userinfo}
-					action={this.onSearchSubmitted}
-				/>
-				<SearchItemResultsList
-				  searchResult={this.state.searchResult}
-					userinfo={this.props.userinfo}
-					resultcount={this.state.searchArray.length}
-				/>
-			</div>
-		)
+
+		if (this.props.origin !== 'HOME') {
+			return (
+				<div>
+					<div>
+						<SearchItemCriteria
+							userinfo={this.props.userinfo}
+							action={this.onSearchSubmitted}
+						/>
+					</div>
+					<div>
+						<SearchItemResultsList
+						  searchResult={this.state.searchResult}
+							userinfo={this.props.userinfo}
+							resultcount={this.state.searchArray.length}
+						/>
+					</div>
+				</div>
+			)
+		} else {
+			return (
+				<div>
+					<SearchItemResultsList
+						searchResult={this.state.searchResult}
+						userinfo={this.props.userinfo}
+						resultcount={this.state.searchArray.length}
+					/>
+				</div>
+			)
+		}
 	}
 })

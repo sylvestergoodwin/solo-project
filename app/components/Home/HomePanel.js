@@ -13,7 +13,8 @@ export default React.createClass({
 				description: 'Image of a woman in green sitting alone in a room',
 				list_price: 23.92,
 				sale_price: 32.12,
-				item_id: 12121212
+				item_id: 12121212,
+				link: 'city-gallery/20170706/LensSexy20160227-20160227DSC03563.jpg'
 			});
 		}
 

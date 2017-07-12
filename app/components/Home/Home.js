@@ -1,5 +1,6 @@
 import React from 'react'
 import HomePanel from './HomePanel'
+import SearchItem from '../Search/SearchItem'
 
 
 export default React.createClass({
@@ -10,10 +11,10 @@ export default React.createClass({
 
 		return (
 			<div>
-				<h1>HOME </h1>
-				<HomePanel
+				<SearchItem
 					userinfo={this.props.userinfo}
 					itemgroup={grouptype}
+					origin='HOME'
 				/>
 
 			</div>

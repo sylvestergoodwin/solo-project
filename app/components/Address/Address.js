@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom';
+import { BrowserRouter as Router,  Route} from 'react-router-dom';
 import AddressDisplay from './AddressDisplay'
 import AddressList from './AddressList'
 import AddressMaintenance from './AddressMaintenance'
@@ -212,7 +209,6 @@ export default React.createClass( {
     if ( this.state.activeComponent == 'List' ) {
       return (
 				<div>
-	        <h1> ADDRESS LIST </h1>
           {this.state.addressList}
 					< AddressList
 					 	addresslist = {this.state.addressList}
@@ -224,7 +220,6 @@ export default React.createClass( {
 		}else if (this.state.activeComponent == 'Edit'){
 			return (
 				<div>
-        	<h1 > ADDRESS EDIT < /h1>
         	<AddressMaintenance
 						address = {this.state.addr}
         		actionlist = {this.state.actionlist}
@@ -236,7 +231,6 @@ export default React.createClass( {
     } else if (this.state.activeComponent=='New'){
       return (
 				<div >
-        	<h1 > ADDRESS NEW < /h1>
         	<AddressMaintenance
 						address = {this.state.addr}
         		actionlist = {this.state.actionlist}

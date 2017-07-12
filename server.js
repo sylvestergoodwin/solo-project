@@ -21,13 +21,12 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 app.use(express.static("./public"));
 
 // -------------------------------------------------
-
 // MongoDB Configuration configuration
 // development database
-//mongoose.connect("mongodb://localhost/soloproject");
+mongoose.connect("mongodb://localhost/soloproject");
 
 // production database
-mongoose.connect("mongodb://soloproject:soloproject@ds151202.mlab.com:51202/soloproject")
+//mongoose.connect("mongodb://soloproject:soloproject@ds151202.mlab.com:51202/soloproject")
 var mongodb = mongoose.connection;
 
 mongodb.on("error", function(err) {
@@ -45,7 +44,7 @@ mongodb.once("open", function() {
 var mysqldb = require("./server/db/mysql/models");
 
 // Syncing our sequelize models and then starting our express app
-mysqldb.sequelize.sync({ force: true })
+mysqldb.sequelize.sync({ force: false })
 	.then(function() {
 		console.log("mysql Connection Successfull");
     console.log("----------------------------------------------------------------.");
@@ -55,98 +54,112 @@ mysqldb.sequelize.sync({ force: true })
 	});
 
 // -------------------------------------------------
-// Route
+// Address Route
 app.put("/api/address", function(req, res) {
-    console.log("put api/address")
-    console.log(req.body)
+  // console.log("put api/address")
+  // console.log(req.body)
 
-    mysqldb.Address.update(
-      {user_id: req.body.user_id,
-        street: req.body.street,
-        pobox: req.body.pobox,
-        city: req.body.city,
-        state: req.body.state,
-        zip: req.body.zip,
-        country: req.body.country},
-      {where: {address_id: req.body.address_id}
+  mysqldb.Address.update({
+    user_id: req.body.user_id,
+    street: req.body.street,
+    pobox: req.body.pobox,
+    city: req.body.city,
+    state: req.body.state,
+    zip: req.body.zip,
+    country: req.body.country},
+    {where: {address_id: req.body.address_id}
     })
-    .then(newAddr => {console.log(newAddr)});
-    res.send('OK')
+    .then(newAddr => {
+      console.log(newAddr)
+      res.json(newAddr)
+    });
 });
 
 app.post("/api/address", function(req, res) {
-    console.log("put api/address")
-    console.log(req.body)
+  //  console.log("put api/address")
+  //  console.log(req.body)
 
-    mysqldb.Address.create({
-      entry_dtm: req.body.entry_dtm,
-      user_id: req.body.user_id,
-      street: req.body.street,
-      pobox: req.body.pobox,
-      city: req.body.city,
-      state: req.body.state,
-      zip: req.body.zip,
-      country: req.body.country
+  mysqldb.Address.create({
+    entry_dtm: req.body.entry_dtm,
+    user_id: req.body.user_id,
+    street: req.body.street,
+    pobox: req.body.pobox,
+    city: req.body.city,
+    state: req.body.state,
+    zip: req.body.zip,
+    country: req.body.country
     })
-    .then(newAddr => {console.log(newAddr)});
-    res.send('OK')
+    .then(newAddr => {
+      console.log(newAddr)
+      res.json(newAddr)
+    });
 });
 
 app.get("/api/address", function(req, res) {
-  console.log("get api/address " )
-  console.log(req)
-  console.log(req.query)
+  //console.log("get api/address " )
+  //console.log(req)
+  //console.log(req.query)
 
   if(req.query.address_id == 0){
     console.log('all')
     mysqldb.Address.findAll({
       where: {
         user_id: req.query.user_id
-      }
-    })
+        }
+      })
       .then(function (data) {
-      console.log(data)
-      res.json(data)
-    })
+        console.log(data)
+        res.json(data)
+      })
   } else {
     console.log('specific')
     mysqldb.Address.findAll({
       where: {
         user_id: req.query.user_id,
         address_id: req.query.address_id
-      }
-    })
+        }
+      })
       .then(function (data) {
-      console.log(data)
-      res.json(data)
-    })
+        console.log(data)
+        res.json(data)
+      })
   }
 });
 
 app.delete("/api/address", function(req, res) {
-  console.log("delete api/address")
-  console.log(req)
+  //console.log("delete api/address")
+  //console.log(req)
   mysqldb.Address.destroy({
     where: {address_id: req.body.address_id}
-  })
-  .then(deleted => {
-    console.log('deleted '+req.body.address_id)
-    res.send('OK')
-  })
+    })
+    .then(deleted => {
+      console.log('deleted '+req.body.address_id)
+      res.send('OK')
+    })
 });
 
-// Route
+// Item Route
 app.post("/api/item", function(req, res) {
-    console.log("post api/item")
-    console.log(req.body)
+  // This route will process when a  new item is added
+  // the process will first insert/update a record into the mySQL database Item table
+  // once that record is successfully created/updated the associated item_id will be used during
+  // the creation/update of the ItemDetail collection within the MongoDB database. This way the
+  // item_id will be used to link the data within the two databases
 
-    mysqldb.Item.create({
-      list_price: req.body.list_price,
-      sale_price: req.body.sale_price,
-      quantity: req.body.quantity
+  //  console.log("post api/item")
+  //  console.log(req.body)
+
+  // create the mySQL item record
+  mysqldb.Item.create({
+    list_price: req.body.list_price,
+    sale_price: req.body.sale_price,
+    quantity: req.body.quantity
     })
     .then(newItem => {
-      console.log(newItem)
+      // console.log(newItem)
+
+      // create the new record within the items MongoDB database ItemDetail collection
+      // using the item_id to link the data within the two database
       const item = new ItemDetail({
         item_id: newItem.item_id,
         description: req.body.description,
@@ -165,95 +178,98 @@ app.post("/api/item", function(req, res) {
     })
 });
 
+// when updating the item information both the MySQL database and the MongoDB database
+// will be updated together to remain in sync of any changes
 app.put("/api/item", function(req, res) {
-    console.log("put api/item")
-    console.log(req.body)
-    // update mysqldb
-      mysqldb.Item.update(
-        {list_price: req.body.list_price,
-          sale_price: req.body.sale_price,
-          quantity: req.body.quantity},
-        {where: {item_id: req.body.item_id}
-      })
-      .then(item => {
-        // update mongodb
-        const itemCollecttion = new ItemDetail({
-          item_id: item.item_id,
-          description: req.body.description,
-          title: req.body.name,
-          link: req.body.filelocation,
-          keywords: req.body.keywords
+  //  console.log("put api/item")
+  //  console.log(req.body)
+  // update mysqldb
+  mysqldb.Item.update(
+    {list_price: req.body.list_price,
+      sale_price: req.body.sale_price,
+      quantity: req.body.quantity},
+      {where: {item_id: req.body.item_id}
+    })
+    .then(item => {
+      // update mongodb
+      const itemCollecttion = new ItemDetail({
+        item_id: item.item_id,
+        description: req.body.description,
+        title: req.body.name,
+        link: req.body.filelocation,
+        keywords: req.body.keywords
         })
-        itemCollecttion.save(function(err, doc){
-          if(err){
-            console.log(err)
-            res.send('OK')
-          } else {
-            console.log(doc)
-            res.send('OK')
-          }
-        })
-        console.log(item)
-      });
-});
-
-app.get("/api/item", function(req, res) {
-    console.log("get api/item")
-    console.log(req.query)
-    if(req.query.item_id == 0){
-      mysqldb.Item.findAll()
-        .then(function (data) {
-          console.log(data)
-          res.json(data)
-        })
-    } else {
-      mysqldb.Item.findAll({
-        where: {
-          item_id: req.query.item_id
+      itemCollecttion.save(function(err, doc){
+        if(err){
+          console.log(err)
+          res.send('OK')
+        } else {
+          // console.log(doc)
+          res.send('OK')
         }
       })
-        .then(function (data) {
-          console.log(data)
-          res.json(data)
-        })
+    //  console.log(item)
+    });
+});
+
+// the item information will only be retrieved from the mySQL databas at this time based on the
+// where clause of the information being requested
+app.get("/api/item", function(req, res) {
+  //  console.log("get api/item")
+  //  console.log(req.query)
+  if(req.query.item_id == 0){
+    mysqldb.Item.findAll()
+      .then(function (data) {
+        //  console.log(data)
+        res.json(data)
+      })
+  } else {
+    mysqldb.Item.findAll({
+      where: {
+        item_id: req.query.item_id
+        }
+      })
+      .then(function (data) {
+        //console.log(data)
+        res.json(data)
+      })
     }
 });
 
-
 app.delete("/api/item", function(req, res) {
-  console.log("delete api/item")
-  console.log(req)
+  //console.log("delete api/item")
+  //console.log(req)
   mysqldb.Payment.destroy({
     where: {item_id: req.body.item_id}
-  })
-  .then(deleted => {
-    console.log('deleted '+req.body.item_id)
-    res.send('OK')
-  })
+    })
+    .then(deleted => {
+    //  console.log('deleted '+req.body.item_id)
+      res.send('OK')
+    })
 });
 
 
-// Route login
+// User Route login
 app.get("/api/user", function(req, res) {
-  console.log("api/user")
-  console.log(req.query)
-    mysqldb.User.findAll({
-      where : {
-        username: req.query.username,
-        password: req.query.password
-      }}
-    )
-      .then(function (data) {
-        console.log(data)
-        res.json(data)
-      })
+  //console.log("api/user")
+  //console.log(req.query)
+  mysqldb.User.findAll({
+    where : {
+      username: req.query.username,
+      password: req.query.password
+      }
+    })
+    .then(function (data) {
+      //  console.log(data)
+      res.json(data)
+    })
 });
 
 app.post("/api/user", function(req, res) {
   console.log("api/user")
   console.log(req.body)
     const eff_date = new Date()
-    const access_type = 'ADMIN'
+    const access_type = 'BASIC'
     const status = 'ACTIVE'
     const lastlogin = new Date()
     mysqldb.User.create({
@@ -277,22 +293,23 @@ app.get("/api/search", function(req, res){
   console.log("api/searchooooooo")
   console.log(req.query)
 
-    var itemList = []
+//    var itemList = []
 
-		for (var i=0; i < 4; i++){
-			itemList.push({
-				name: 'Woman in GOLD Red',
-				description: 'Image of a woman in red sitting alone in a room',
-        item_id: (400+i)
-			});
-		}
-    console.log(itemList)
-    res.json(itemList)
+//		for (var i=0; i < 4; i++){
+//			itemList.push({
+//				name: 'Woman in GOLD Red',
+//				description: 'Image of a woman in red sitting alone in a room',
+//        item_id: (400+i),
+//        link: 'city-gallery/20170706/LensSexy20161217-20161217DSC06743.jpg'
+//			});
+//		}
+//    console.log(itemList)
+//    res.json(itemList)
 
-//  ItemDetail.find({keywords: {$in: req.query.searchText.split(',')}}, function(err, data){
-//    console.log(data)
-//    res.json(data)
-//  })
+  ItemDetail.find({keywords: {$in: req.query.searchText.split(',')}}, function(err, data){
+    console.log(data)
+    res.json(data)
+  })
 })
 
 
@@ -378,21 +395,24 @@ app.post("/api/paymentinfo", function(req, res) {
 });
 
 app.put("/api/paymentinfo", function(req, res) {
-    console.log("put api/paymentinfo")
-    console.log(req.body)
+  //  console.log("put api/paymentinfo")
+  //  console.log(req.body)
 
-    mysqldb.Payment.update(
-      {account_name: req.body.account_name,
+  mysqldb.Payment.update({
+      account_name: req.body.account_name,
       user_id: req.body.user_id,
       payment_type: req.body.payment_type,
       account_number: req.body.account_number,
       status: req.body.status,
       exp_date: req.body.exp_date,
       ccv: req.body.ccv},
-      {where: {payment_id: req.body.payment_id}
-    })
-    .then(newAddr => {console.log(newAddr)});
-    res.send('OK')
+      {where: {
+        payment_id: req.body.payment_id}
+        })
+      .then(newAddr => {
+        //console.log(newAddr)
+        res.send('OK')
+      });
 });
 
 
@@ -401,40 +421,40 @@ app.delete("/api/paymentinfo", function(req, res) {
   console.log(req)
   mysqldb.Payment.destroy({
     where: {payment_id: req.body.payment_id}
-  })
-  .then(deleted => {
-    console.log('deleted '+req.body.payment_id)
-    res.send('OK')
-  })
+    })
+    .then(deleted => {
+      // console.log('deleted '+req.body.payment_id)
+      res.send('OK')
+    })
 });
 
 
 app.get("/api/paymentinfo", function(req, res) {
-  console.log("api/paymentinfo")
-  console.log(req.query)
+  //console.log("api/paymentinfo")
+  //console.log(req.query)
   if(req.query.payment_id == 0){
-    console.log('all')
+    //console.log('all')
     mysqldb.Payment.findAll({
       where: {
         user_id: req.query.user_id
       }
     })
-      .then(function (data) {
-      console.log(data)
+    .then(function (data) {
+      //console.log(data)
       res.json(data)
     })
   } else {
-    console.log('specific')
+    // console.log('specific')
     mysqldb.Payment.findAll({
       where: {
         user_id: req.query.user_id,
         payment_id: req.query.payment_id
-      }
-    })
+        }
+      })
       .then(function (data) {
-      console.log(data)
-      res.json(data)
-    })
+        // console.log(data)
+        res.json(data)
+      })
   }
 });
 
