@@ -12,36 +12,26 @@ export default React.createClass({
 			paymentDataList: [],
 			activeComponent: 'List',
 			payment: {},
-
-
-			//**********
-			//*********************************************************
-			//
-			//	userInfo: this.props.userInfo
-
-				userInfo: {
-					user_id: this.props.userinfo.user_id,
-					username: this.props.userinfo.username,
-					lastlogin: '2017-01-01'
-				}
-
-			//**********
-			//*********************************************************
-
+			userInfo: {
+				user_id: this.props.userinfo.user_id,
+				username: this.props.userinfo.username,
+				lastlogin: new Date()
+			}
 		})
 	},
+
 	setPayment(payment){
 			this.setState( {
 				 payment: payment,
 				activeComponent: 'Edit'
 			} )
 	},
+
 	onSelect(payment_id){
 		PaymentInfoUtils.loadPaymentInfoByID(payment_id)
 	},
 
 	onDelete(payment_id){
-		alert('delete '+data_item_key)
 		axios.delete('/api/paymentinfo', {data: {payment_id: payment_id}})
 			.then(function (response) {
 				console.log(response);
@@ -49,9 +39,7 @@ export default React.createClass({
 			.catch(function (error) {
 				console.log(error);
 				});
-
 		this.setState({activeComponent: 'List'})
-
 	},
 
 	onNew(){
@@ -69,61 +57,51 @@ export default React.createClass({
     } )
 	},
 
-
 	onEdit(){
-
 	  const setPayment = this.setPayment
-
 	  axios.get( '/api/paymentinfo', {
 	      params: {
 	        payment_id: payment_id,
 	        user_id: this.props.userinfo.user_id
 	      }
-	    } )
+	    })
 	    .then( function ( result ) {
-	      // navigate to the address list
+				// pull the first element from the array returned
 	      const payment = result.data[0]
 	      setPayment(payment)
-
-	      console.log(payment)
-	    } )
+	    	})
 	    .catch( function ( error ) {
 	      alert( 'failed' )
 	      console.log( error );
-	    } );
-
+	    	});
 		this.setState({activeComponent: 'List'})
-
 	},
 
+	// this is called both for updates to existing records and new data entry
+	// we defrentiate between insert and update by is there is a valid payment_id
 	onSubmit(paymentinfo){
-		console.log(paymentinfo)
+		// insert
 		if (typeof paymentinfo.payment_id == 'undefined')  {
-			alert('paymentinfo post')
-				console.log(paymentinfo)
 				axios.post('/api/paymentinfo', paymentinfo)
 					.then(function (response) {
-							console.log(response);
+						this.setState({activeComponent: 'List'})
 					})
 					.catch(function (error) {
 							console.log(error);
 					});
 		}
 		else {
-			alert('paymentinfo put')
+			// update
 			axios.put('/api/paymentinfo', paymentinfo)
 				.then(function (response) {
-					console.log(response);
 					this.setState({activeComponent: 'List'})
 					})
 				.catch(function (error) {
 					console.log(error);
 					});
 		}
-
 		this.setState({activeComponent: 'List'})
 	},
-
 
 	onCancel(){
 	this.setState({activeComponent: 'List'})
@@ -136,13 +114,22 @@ export default React.createClass({
     } )
   },
 
-
 	componentDidMount(){
 		// get the list of paymentData for the user based on the this.props.userInfo.user_id
 		const onDelete = this.onDelete
     const onSelect = this.onSelect
 		const userinfo = this.props.userinfo
     const buildComponentList = this.buildComponentList
+		this.setState({
+			actionlist: {
+				onDelete: this.onDelete,
+				onSubmit: this.onSubmit,
+				onSelect: this.onSelect,
+				onCancel: this.onCancel,
+				onEdit: this.onEdit,
+				onNew: this.onNew
+			}
+		})
 		axios.get('/api/paymentinfo', {
 				params: {
 					payment_id: 0,
@@ -150,7 +137,6 @@ export default React.createClass({
 				}
 			})
 			.then(function (results) {
-				console.log(results.data)
 				const payments = results.data.map(function(payment){
 					return (
 						<div>
@@ -177,25 +163,15 @@ export default React.createClass({
 							</div>
 						)
 				});
-
         buildComponentList( payments,  results.data)
-
 			})
 			.catch(function (error) {
 				console.log(error);
 			});
-		this.setState({actionlist: {
-						onDelete: this.onDelete,
-						onSubmit: this.onSubmit,
-						onSelect: this.onSelect,
-						onCancel: this.onCancel,
-						onEdit: this.onEdit,
-						onNew: this.onNew
-						}
-		})
 	},
 
 	render: function(){
+		// TODO need to remove this and verify it works as expected
 		const actionlist = {
 			onDelete: this.onDelete,
 			onSelect: this.onSelect,

@@ -13,7 +13,6 @@ export default React.createClass({
 		})
 	},
 	onSubmit(){
-		alert('setting data')
 		this.props.action.onSubmit({
 			user_id: this.props.userinfo.user_id,
 			payment_id: this.state.payment_id,

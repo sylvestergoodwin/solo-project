@@ -56,6 +56,8 @@ export default React.createClass( {
       axios.post('/api/address', address)
         .then(function (response) {
           //navigate to AddressList
+
+          this.loadData()
           this.setState( {activeComponent: 'List'} )
           })
         .catch(function (error) {
@@ -65,6 +67,8 @@ export default React.createClass( {
       axios.put('/api/address', address)
         .then(function (response) {
           //navigate to AddressList
+
+          this.loadData()
           this.setState( {activeComponent: 'List'} )
           })
         .catch(function (error) {
@@ -95,8 +99,6 @@ export default React.createClass( {
         // navigate to the address list
         const addr = result.data[0]
         setAddress(addr)
-
-        console.log(addr)
       } )
       .catch( function ( error ) {
         alert( 'failed' )

@@ -59,9 +59,7 @@ export default React.createClass({
 									</div>
 								)
 							})
-
 							buildComponentList(resultlist, result.data)
-
 		      } )
 		      .catch( function ( error ) {
 		        console.log( error );

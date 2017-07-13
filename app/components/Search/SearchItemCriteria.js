@@ -9,14 +9,18 @@ export default React.createClass({
 			searchText: ''
 		})
 	},
+
 	onSearchChanged(event){
 		this.setState({searchText: event.target.value})
 	},
+
+	// allows the enter key to initiate the search no need for a button
 	onKeyPressed(e){
 		if (e.key == 'Enter'){
 			this.props.action(this.state.searchText)
 		}
 	},
+	
 	render(){
 		return (
 			<div className="search">
@@ -30,7 +34,7 @@ export default React.createClass({
 							value = {this.state.searchText}
 							onKeyPress={this.onKeyPressed}
 							onChange={this.onSearchChanged}/>
-						<label className="lable-icon" 
+						<label className="lable-icon"
 							htmlFor="search">
 							<i className="material-icons">search</i>
 						</label>

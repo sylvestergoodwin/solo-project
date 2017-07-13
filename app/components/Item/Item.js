@@ -75,7 +75,7 @@ export default React.createClass({
 	},
 	onDelete(item_id){
     // post delete of address with the key
-    axios.delete('/api/item', item)
+    axios.delete('/api/item', item_id)
       .then(function (response) {
         console.log(response);
         })
@@ -159,6 +159,7 @@ export default React.createClass({
 														tooltip="Delete"
 														buttonicon="delete"
 														data_item_key={item.item_id}
+														key={item.item_id}
 													/>
 												</div>
 												<div className="col s2">
@@ -167,6 +168,7 @@ export default React.createClass({
 														tooltip="Edit"
 														buttonicon="edit"
 														data_item_key={item.item_id}
+														key={item.item_id}
 													/>
 												</div>
 											</div>
@@ -190,7 +192,7 @@ export default React.createClass({
 		{
 			return (
 				<div>
-					<div><h3><i>Enter Item Detail</i></h3></div>
+					<div className='section-header'><h5><i>Enter Item Detail</i></h5></div>
 					<ItemDetailMaintenance
 						itemdetail={this.state.item}
 						userinfo={this.props.userinfo}
@@ -201,7 +203,7 @@ export default React.createClass({
 		}else if (this.state.activeComponent == 'Edit') {
 			return (
 				<div>
-					<div><h3><i>Item Maintenance</i></h3></div>
+					<div className='section-header'><h5><i>Item Maintenance</i></h5></div>
 					<ItemDetailMaintenance
 						itemdetail={this.state.item}
 						action={this.state.actionlist}
@@ -212,7 +214,7 @@ export default React.createClass({
 		}else {
 			return (
 				<div>
-					<div><h3><i>Item List</i></h3></div>
+					<div className='section-header'><h5><i>Item List</i></h5></div>
 					<ItemDetailList
 						itemlist={this.state.itemList}
 						action={this.state.actionlist}

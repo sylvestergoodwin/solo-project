@@ -17,7 +17,7 @@ render(){
 //		console.log(this.state)
 //		console.log(this.props.resultcount)
 		if (this.props.resultcount == 0) {
-			display = <div></div>
+			display = <div><h5><i>No Items matches the search criteria</i></h5></div>
 		} else {
 			display = <div>
 									<div>

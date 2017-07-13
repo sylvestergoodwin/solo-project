@@ -13,7 +13,7 @@ export default React.createClass({
 				<div className="collection">
 					<div className="row">
 						<div className="left city-gallery-padding">
-							<h1>City Gallery</h1>
+							<h1><i>City Gallery</i></h1>
 						</div>
 
 						<div className="right padding-right-10">

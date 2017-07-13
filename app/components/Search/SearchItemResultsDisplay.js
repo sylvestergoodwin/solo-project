@@ -4,8 +4,6 @@ import axios from 'axios'
 
 export default React.createClass({
 	getInitialState(){
-		console.log(this.props.itemdetail)
-		console.log(this.props.itemdetail.item_id)
 		return({
 			itemdetail: {
 				description: this.props.itemdetail.description,
@@ -21,13 +19,11 @@ export default React.createClass({
 
 	setItemdetail(item){
 		var itemdetail = this.state.itemdetail
-				itemdetail.list_price = item.list_price
-				itemdetail.sale_price = item.sale_price
-				itemdetail.quantity = item.quantity
-
+			itemdetail.list_price = item.list_price
+			itemdetail.sale_price = item.sale_price
+			itemdetail.quantity = item.quantity
 		this.setState(itemdetail: itemdetail)
 	},
-
 
 	componentDidMount(){
 		const setItem = this.setItemdetail

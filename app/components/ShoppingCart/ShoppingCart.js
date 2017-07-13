@@ -21,7 +21,6 @@ export default React.createClass({
 		}
 	},
 	onBuy(){
-		alert("buy Buy bUy")
 		const user_id = this.props.userinfo.user_id
 
 		axios.post('/api/buy', {user_id: user_id})

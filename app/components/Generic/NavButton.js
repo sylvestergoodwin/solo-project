@@ -1,9 +1,10 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom';
-import TransitionGroup from 'react-transition-group/TransitionGroup' // ES6
 
+// displays the butions used as the navigation based on the user logged in
 export default React.createClass({
 	render(){
+		// not logged in
 		if (this.props.userinfo.user_id === -1000){
 			return(
 				<div>
@@ -25,16 +26,8 @@ export default React.createClass({
 				</div>
 			)
 		}
+		// logged in Admin
 		else if ((this.props.userinfo.user_id !== -1000) && (this.props.userinfo.access_type ==='ADMIN')){
-//			<li>
-//				<NavLink to="/User"
-//					className="btn-floating purple tooltipped"
-//					data-position="left"
-//					data-tooltip="User Maintenance" >
-//					<i className="material-icons">account_circle</i>
-//				</NavLink>
-//			</li>
-
 			return(
 				<div>
 					<div className="fixed-action-btn">
@@ -86,6 +79,7 @@ export default React.createClass({
 				</div>
 			)
 		}
+		// logged in Basic User
 		else {
 			return(
 				<div>

@@ -16,9 +16,8 @@ export default React.createClass({
 					<div className="card-panel">
 						<div className ="row">
 							<div className="col s3">
-								<img className="activator" src="images/a.png" width='40'/>
+								<img className="activator" src={this.props.itemdetail.link} width='40'/>
 							</div>
-
 							<div className="col s3">
 							List Price: {' $'+parseFloat(this.props.itemdetail.list_price).toFixed(2)}
 							</div>
