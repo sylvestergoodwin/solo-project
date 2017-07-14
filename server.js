@@ -44,7 +44,7 @@ mongodb.once("open", function() {
 var mysqldb = require("./server/db/mysql/models");
 
 // Syncing our sequelize models and then starting our express app
-mysqldb.sequelize.sync({ force: false })
+mysqldb.sequelize.sync({ force: true })
 	.then(function() {
 		console.log("mysql Connection Successfull");
     console.log("----------------------------------------------------------------.");
@@ -146,8 +146,8 @@ app.post("/api/item", function(req, res) {
   // the creation/update of the ItemDetail collection within the MongoDB database. This way the
   // item_id will be used to link the data within the two databases
 
-  //  console.log("post api/item")
-  //  console.log(req.body)
+    console.log("post api/item")
+    console.log(req.body)
 
   // create the mySQL item record
   mysqldb.Item.create({
@@ -155,7 +155,7 @@ app.post("/api/item", function(req, res) {
     sale_price: req.body.sale_price,
     quantity: req.body.quantity
     })
-    .then(newItem => {
+    .then( (newItem, req) => {
       // console.log(newItem)
 
       // create the new record within the items MongoDB database ItemDetail collection
@@ -163,8 +163,8 @@ app.post("/api/item", function(req, res) {
       const item = new ItemDetail({
         item_id: newItem.item_id,
         description: req.body.description,
-        title: req.body.name,
-        link: req.body.filelocation,
+        title: req.body.title,
+        link: req.body.link,
         keywords: req.body.keywords
       })
       item.save(function(err, doc){
@@ -297,8 +297,8 @@ app.post("/api/user", function(req, res) {
 
 //Route search
 app.get("/api/search", function(req, res){
-  console.log("api/searchooooooo")
-  console.log(req.query)
+//  console.log("api/searchooooooo")
+//  console.log(req.query)
 
 //    var itemList = []
 
@@ -342,9 +342,6 @@ app.get("/api/shopping", function(req, res){
 })
 
 app.get("/api/itemdetail", function(req, res){
-    console.log("get api/itemdetailoooooooooooooooo")
-    console.log(req)
-    console.log(req.query)
   if (req.query.item_id == 0){
     ItemDetail.find({}, function(err, data){
       if(err){
@@ -378,10 +375,21 @@ app.delete("/api/itemsale", function(req, res){
     })
     .then(function (data){
       console.log(data)
-      res.json(data)
+      // update item quantity to show the order
+//      mysqldb.Item.update(
+//        {quantity: (sequelize.col('quantity') - data.quantity)},
+//          {where: {item_id: itemdata.item_id}
+//        })
+//        .then(result => {
+//          console.log(result)
+          res.json(result)
+//        })
+
     })
 })
 
+// adds the item to the shopping cart by inserting a record into the ItemSale table
+// for the current user id setting the price at the time its added to the cart
 app.post("/api/shopping", function(req, res){
     console.log("post api/shopping")
     console.log(req.body)
@@ -393,22 +401,37 @@ app.post("/api/shopping", function(req, res){
       quantity: req.body.quantity
     })
     .then(function (data){
-      console.log(data)
-      res.json(data)
+      // update item quantity to show the order
+      mysqldb.Item.update(
+        {quantity: (req.body.current_inventory - req.body.quantity)},
+          {where: {item_id: req.body.item_id}
+        })
+        .then(item => {
+          console.log(data)
+          res.json(data)
+        })
     })
 })
 
+// finalizes the sale by creating a record in the sale table
+// moves the item out of the shopping cart by setting the itemsale.sale_id column
 app.post("/api/buy", function(req, res){
-    console.log("post api/shopping")
-    console.log(req)
-    mysqldb.ItemSale.create({
-      user_id: req.body.user_id
-    })
-    .then(function (itemsale){
-      console.log('success')
+    console.log("postooooooo api/buy")
+    console.log(req.body)
 
-      mysqldb.Item.update({
-          sale_id: itemsale.sale_id},
+    mysqldb.Sale.create({
+			user_id: req.body.user_id,
+			payment_id: req.body.payment_id,
+			address_id: req.body.address_id,
+			sale_dtm: req.body.sale_dtm,
+			status: req.body.status,
+			sale_category: req.body.sale_category,
+			payment_type: req.body.payment_type
+    })
+    .then(function (sale){
+      console.log('success')
+      mysqldb.ItemSale.update({
+          sale_id: sale.sale_id},
         {where: {user_id: req.body.user_id}}
       )
     })

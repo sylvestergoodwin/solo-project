@@ -27,7 +27,8 @@ export default React.createClass({
 	},
 	onSubmit(item){
 		if ( typeof item.item_id === 'undefined' ) {
-			alert('item post')
+			console.log('item posting')
+			console.log(item)
 			axios.post('/api/item', item)
 				.then(function (response) {
 					console.log(response);

@@ -18,10 +18,12 @@ export default React.createClass({
 	  },
 
 	setAddress(addr){
+		alert(addr.address_id)
 	      this.setState( {
 	         addr: addr,
 	        	activeComponent: 'Display'
 	      } )
+				this.props.action(addr)
 	  },
 	onEdit(address_id){
 	    const setAddress = this.setAddress
@@ -72,7 +74,6 @@ export default React.createClass({
 	      }
 	    } )
 
-
 	    const onDelete = this.onDelete
 	    const onEdit = this.onEdit
 	    const buildComponentList = this.buildComponentList
@@ -122,6 +123,7 @@ export default React.createClass({
 	        console.log( error );
 	      } );
 	  },
+
 	render(){
 		console.log(this.state.addr)
 		let paymentsAddress = {}

@@ -17,13 +17,23 @@ export default React.createClass({
 			showPayment: 'No',
 			paymentSelected: 'No',
 			itemList: [],
-			itemArray: []
+			itemArray: [],
+			address: {},
+			payment: {}
 		}
 	},
 	onBuy(){
 		const user_id = this.props.userinfo.user_id
 
-		axios.post('/api/buy', {user_id: user_id})
+		axios.post('/api/buy', {
+				user_id: user_id,
+				payment_id: this.state.payment.payment_id,
+				address_id: this.state.address.address_id,
+				sale_dtm: new Date(),
+				status: 'SOLD',
+				sale_category: 'WEB',
+				payment_type: 'ONLINE'
+			})
 			.then(function (response) {
 				console.log(response);
 				})
@@ -31,9 +41,14 @@ export default React.createClass({
 				console.log(error);
 				});
 	},
-	onDelete(itemsale_id){
-		alert(itemsale_id)
-		axios.delete('/api/itemsale', {data: {itemsale_id: itemsale_id}})
+	onDelete(iteminfo){
+		alert(iteminfo.itemsale_id)
+		axios.delete('/api/itemsale', {
+			data: {
+				itemsale_id: iteminfo.itemsale_id,
+				item_id: iteminfo.item_id
+				}
+			})
 			.then(function (response) {
 				console.log(response);
 				})
@@ -66,6 +81,10 @@ export default React.createClass({
 	      .then( function ( result ) {
 	        // navigate to the address list
 	        const list = result.data.map( function ( item ) {
+						var iteminfo = {
+							item_id: item.item_id,
+							itemsale_id: item.itemsale_id
+								}
 	          return (
 								<div>
 	            		<div className = "row hoverable" >
@@ -80,7 +99,8 @@ export default React.createClass({
 												tooltip="Delete Shopping Cart Item"
 												buttonicon="delete"
 												action={onDelete}
-												data_item_key={item.itemsale_id}
+												key={item.itemsale_id}
+												data_item_key={iteminfo}
 											/>
 										</div>
 									</div>
@@ -100,6 +120,12 @@ export default React.createClass({
 				showAddress: 'Yes'
 			})
 		},
+		onSetAddressData(address){
+			this.setState({address: address})
+		},
+		onSetPaymentData(payment){
+			this.setState({payment: payment})
+		},
 		onSelectPayment(){
 			this.setState({
 				showPayment: 'Yes'
@@ -113,6 +139,7 @@ export default React.createClass({
 			 addressList = <div>
 				<ShoppingCartAddressList
 					userinfo={this.props.userinfo}
+					action={this.onSetAddressData}
 				/>
 			</div>
 		} else {
@@ -131,6 +158,7 @@ export default React.createClass({
 			paymentList =  <div>
 				<ShoppingCartPaymentList
 					userinfo={this.props.userinfo}
+					action={this.onSetPaymentData}
 				/>
 			</div>
 		} else {

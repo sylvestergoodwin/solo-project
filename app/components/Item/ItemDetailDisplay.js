@@ -44,7 +44,8 @@ export default React.createClass({
 				quantity: this.state.buyamount,
 				user_id: this.props.userinfo.user_id,
 				list_price: this.props.itemdetail.list_price,
-				sale_price: this.props.itemdetail.sale_price
+				sale_price: this.props.itemdetail.sale_price,
+				current_inventory: this.props.itemdetail.quantity
 			})
 			.then(function (response) {
 				console.log(response);

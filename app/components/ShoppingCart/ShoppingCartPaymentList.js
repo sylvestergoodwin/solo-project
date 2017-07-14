@@ -37,10 +37,12 @@ export default React.createClass({
 
 	},
 	setPayment(payment){
+		alert(payment.payment_id)
 			this.setState( {
 				 payment: payment,
 				activeComponent: 'Display'
 			} )
+			this.props.action(payment)
 	},
 	onNew(){
 		this.props.action.onNew()

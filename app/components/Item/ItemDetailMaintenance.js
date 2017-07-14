@@ -17,6 +17,7 @@ export default React.createClass({
 	},
 
 	setItemdetail(item){
+		console.log(item)
 		this.setState({
 			description: item.description,
 			link: item.link,
@@ -33,24 +34,23 @@ export default React.createClass({
 				}
 			})
 			.then(function (result){
-
-				console.log(result)
-				const item = result.data[0]
-				setItem(item)
+					console.log(result)
+					const item = result.data[0]
+					setItem(item)
 			})
 	},
 
 	onSubmit(){
-		alert('on submit')
+		alert('on is submit')
+		console.log(this.state)
 		this.props.action.onSubmit({
 			item_id: this.state.item_id,
-			name: this.state.name,
+			title: this.state.title,
 			description: this.state.description,
 			list_price: this.state.list_price,
 			sale_price: this.state.sale_price,
 			quantity: this.state.quantity,
 			link: this.state.link,
-			title: this.title,
 			keywords: this.state.keywords})
 	},
 	onCancel(){
@@ -79,6 +79,8 @@ export default React.createClass({
 	},
 
 	render(){
+		console.log(this.props)
+		console.log(this.state)
 		return (
 			<div className="row hoverable">
 			<div className = 'container'>

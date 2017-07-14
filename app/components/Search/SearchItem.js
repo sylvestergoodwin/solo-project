@@ -19,51 +19,50 @@ export default React.createClass({
 		}
 	},
 
-		buildComponentList( itemList,  itemArray) {
-	    this.setState( {
-	      searchResult: itemList,
-				searchArray: itemArray
-	    } )
-	  },
-
+	buildComponentList( itemList,  itemArray) {
+    this.setState( {
+      searchResult: itemList,
+			searchArray: itemArray
+    } )
+  },
 
 	onSearchSubmitted(searchText){
 		const buildComponentList = this.buildComponentList
 		const userinfo = this.props.userinfo
 		axios.get( '/api/search', {
-		        params: {
-		          searchText: searchText,
-		          user_id: this.props.userinfo.user_id
-		        }
-		      } )
-		      .then( function ( result ) {
-							const resultlist = result.data.map(function(item){
-								return (
-									<div>
-										<div className="item-detail-display" >
-											<div className="row hoverable left">
-												<div className="col s12">
-													<div className="card-panel">
-														<SearchItemResultsDisplay
-															itemdetail={item}
-															userinfo={userinfo}
-															key={item.item_id}
-															/>
-													</div>
-												</div>
+      params: {
+        searchText: searchText,
+        user_id: this.props.userinfo.user_id
+      }
+    	})
+	    .then( function ( result ) {
+					const resultlist = result.data.map(function(item){
+						return (
+							<div>
+								<div className="item-detail-display" >
+									<div className="row hoverable left">
+										<div className="col s12">
+											<div className="card-panel">
+												<SearchItemResultsDisplay
+													itemdetail={item}
+													userinfo={userinfo}
+													key={item.item_id}
+													/>
 											</div>
 										</div>
 									</div>
-								)
-							})
-							buildComponentList(resultlist, result.data)
-		      } )
-		      .catch( function ( error ) {
-		        console.log( error );
-		      } );
+								</div>
+							</div>
+						)
+					})
+					buildComponentList(resultlist, result.data)
+	    	})
+	    .catch( function ( error ) {
+	        console.log( error );
+	    });
 	},
-	render(){
 
+	render(){
 		if (this.props.navcontrol !== 'HOME') {
 			return (
 				<div>

@@ -147,6 +147,7 @@ export default React.createClass({
 											<PaymentInfoDisplay
 												paymentdetail={payment}
 												userinfo={userinfo}
+												key={payment.payment_id}
 												/>
 											</div>
 										</div>
@@ -156,6 +157,7 @@ export default React.createClass({
 													tooltipposition="below"
 													tooltip="Delete"
 													buttonicon="delete"
+													key={payment.payment_id}
 													data_item_key={payment.payment_id}
 												/>
 											</div>

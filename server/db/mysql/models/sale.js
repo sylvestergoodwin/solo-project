@@ -14,12 +14,19 @@ module.exports = function(sequelize, DataTypes){
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
+		payment_id: {
+			type: DataTypes.INTEGER,
+			allowNull: false
+		},
+		address_id: {
+			type: DataTypes.INTEGER,
+			allowNull: false
+		},
 		sale_category: {
 			type: DataTypes.STRING
 		},
 		payment_type: {
-			type: DataTypes.STRING,
-			allowNull: false
+			type: DataTypes.STRING
 		},
 		status: {
 			type: DataTypes.STRING,
@@ -27,7 +34,7 @@ module.exports = function(sequelize, DataTypes){
 		},
 		sales_total: {
 			type: DataTypes.DECIMAL,
-			allowNull: false
+			allowNull: true
 		},
 		createdAt: {
 			type: DataTypes.DATE
