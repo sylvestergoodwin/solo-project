@@ -138,8 +138,6 @@ export default React.createClass({
 				<div>
 					{paymentsAddress}
 				</div>
-				<div>
-				</div>
 			</div>
 		)
 	}

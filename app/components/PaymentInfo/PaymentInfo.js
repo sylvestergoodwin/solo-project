@@ -32,6 +32,7 @@ export default React.createClass({
 	},
 
 	onDelete(payment_id){
+		alert('pay delete')
 		axios.delete('/api/paymentinfo', {data: {payment_id: payment_id}})
 			.then(function (response) {
 				console.log(response);

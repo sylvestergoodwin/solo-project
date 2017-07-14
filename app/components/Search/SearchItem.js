@@ -37,9 +37,6 @@ export default React.createClass({
 		        }
 		      } )
 		      .then( function ( result ) {
-						console.log("success")
-						console.log(result.data)
-
 							const resultlist = result.data.map(function(item){
 								return (
 									<div>

@@ -7,7 +7,7 @@ export default React.createClass({
 		return({
 			itemdetail: {
 				description: this.props.itemdetail.description,
-				name: this.props.itemdetail.name,
+				title: this.props.itemdetail.title,
 				list_price: 0,
 				sale_price: 0,
 				quantity: 0,
@@ -44,7 +44,6 @@ export default React.createClass({
 				alert( 'failed' )
 			} );
 	},
-
 
 	render(){
 		return (

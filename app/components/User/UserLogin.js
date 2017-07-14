@@ -12,6 +12,12 @@ export default React.createClass({
 			newuser: false
 		})
 	},
+	// allows the enter key to initiate the search no need for a button
+	onKeyPressed(e){
+		if (e.key == 'Enter'){
+			this.onSubmit()
+		}
+	},
 	onNewuser(){
 		this.setState({newuser: true})
 	},
@@ -43,19 +49,22 @@ export default React.createClass({
 		this.props.actionlist.onCancel()
 	},
 	render(){
-		let allowchange = <div>
+		let allowchange = <div></div>
+		let allowchangebutton = <div>
 			<BtnDefault action={this.onNewUser}
 				tooltipposition="below"
 				tooltip="New User"
-				buttonicon="accountplus"
+				buttonicon="person_pin"
 				/>
 			</div>
 		if (this.state.newuser) {
+			allowchangebutton = <div></div>
 			allowchange = <div>
 				 <i><b>Confirm Password: </b></i>
 				 <input type="text"
 					 name="confirmpassword"
 					 value = {this.state.confirmpassword}
+					 onKeyPress={this.onKeyPressed}
 					 onChange={this.onConfirmPasswordChanged}
 				 />
 			 </div>
@@ -70,12 +79,14 @@ export default React.createClass({
 								<input type="text"
 									name="emailaddress"
 									value = {this.state.emailaddress}
+									onKeyPress={this.onKeyPressed}
 									onChange={this.onEmailAddressChanged}
 								/>
 								<i><b>Password: </b></i>
 								<input type="text"
 									name="password"
 									value = {this.state.password}
+									onKeyPress={this.onKeyPressed}
 									onChange={this.onPasswordChanged}
 								/>
 								{allowchange}
@@ -98,6 +109,7 @@ export default React.createClass({
 									buttonicon="undo"
 								/>
 							</div>
+							{allowchangebutton}
 						</div>
 					</div>
 				</div>

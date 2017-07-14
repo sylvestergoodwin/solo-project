@@ -17,8 +17,6 @@ export default React.createClass({
 	},
 
 	setItem(item){
-		console.log('set item')
-		console.log(item)
 		this.setState({
 	  	item: item,
 	    activeComponent: 'Edit'
@@ -64,8 +62,8 @@ export default React.createClass({
 				name: ''
 			}
 		})
-
 	},
+
 	onSelect(item_id){
 		//*********************************************************
 		//********** MOCK UP DATA REMOVED WHEN API IMPLEMENTED
@@ -73,9 +71,10 @@ export default React.createClass({
 		//**********
 		//*********************************************************
 	},
+
 	onDelete(item_id){
     // post delete of address with the key
-    axios.delete('/api/item', item_id)
+    axios.delete('/api/item', {data: {item_id: item_id}})
       .then(function (response) {
         console.log(response);
         })
@@ -116,6 +115,7 @@ export default React.createClass({
 			itemArray: itemArray
     } )
   },
+
 	componentDidMount(){
 		this.setState({
 			actionlist: {
@@ -134,13 +134,14 @@ export default React.createClass({
 		const onBuy = this.onBuy
     const buildComponentList = this.buildComponentList
 		const userinfo = this.props.userinfo
-		axios.get('/api/item', {
+		axios.get('/api/itemdetail', {
 				params: {
 				  item_id: 0
 				}
 			})
 			.then(function (result) {
 				const itemArray = result.data.map(function(item){
+					console.log(item)
 					return (
 							<div className="item-detail-display">
 								<div className="row hoverable left">
@@ -192,7 +193,7 @@ export default React.createClass({
 		{
 			return (
 				<div>
-					<div className='section-header'><h5><i>Enter Item Detail</i></h5></div>
+					<div><h5><i>Enter Item Detail</i></h5></div>
 					<ItemDetailMaintenance
 						itemdetail={this.state.item}
 						userinfo={this.props.userinfo}
@@ -203,7 +204,7 @@ export default React.createClass({
 		}else if (this.state.activeComponent == 'Edit') {
 			return (
 				<div>
-					<div className='section-header'><h5><i>Item Maintenance</i></h5></div>
+					<div><h5><i>Item Maintenance</i></h5></div>
 					<ItemDetailMaintenance
 						itemdetail={this.state.item}
 						action={this.state.actionlist}
@@ -214,7 +215,7 @@ export default React.createClass({
 		}else {
 			return (
 				<div>
-					<div className='section-header'><h5><i>Item List</i></h5></div>
+					<div><h5><i>Item List</i></h5></div>
 					<ItemDetailList
 						itemlist={this.state.itemList}
 						action={this.state.actionlist}

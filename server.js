@@ -237,15 +237,22 @@ app.get("/api/item", function(req, res) {
 });
 
 app.delete("/api/item", function(req, res) {
-  //console.log("delete api/item")
-  //console.log(req)
-  mysqldb.Payment.destroy({
-    where: {item_id: req.body.item_id}
-    })
-    .then(deleted => {
-    //  console.log('deleted '+req.body.item_id)
+  // first remove the mongodb collection data that is there for the item_id
+  const itemCollecttion = new ItemDetail()
+  itemCollecttion.remove({item_id: req.body.item_id}, function(err, doc){
+    if(err){
+      console.log(err)
       res.send('OK')
-    })
+    } else {
+      // remove the transaction data once the item collection changes have been processed
+      mysqldb.Item.destroy({
+        where: {item_id: req.body.item_id}
+        })
+        .then(deleted => {
+          res.send('OK')
+        })
+    }
+  })
 });
 
 
@@ -307,16 +314,21 @@ app.get("/api/search", function(req, res){
 //    res.json(itemList)
 
   ItemDetail.find({keywords: {$in: req.query.searchText.split(',')}}, function(err, data){
-    console.log(data)
-    res.json(data)
+    if(err){
+      console.log(err)
+      res.send('OK')
+    } else {
+      console.log(data)
+      res.json(data)
+    }
   })
 })
 
 
 // Route shopping cart
 app.get("/api/shopping", function(req, res){
-    console.log("get api/shopping")
-    console.log(req.query)
+//    console.log("get api/shopping")
+//    console.log(req.query)
     mysqldb.ItemSale.findAll({
       where : {
         user_id: req.query.user_id,
@@ -327,7 +339,34 @@ app.get("/api/shopping", function(req, res){
         console.log(data)
         res.json(data)
       })
+})
 
+app.get("/api/itemdetail", function(req, res){
+    console.log("get api/itemdetailoooooooooooooooo")
+    console.log(req)
+    console.log(req.query)
+  if (req.query.item_id == 0){
+    ItemDetail.find({}, function(err, data){
+      if(err){
+        console.log(err)
+        res.send('OK')
+      } else {
+        console.log(data)
+        res.json(data)
+      }
+    })
+  } else {
+
+    ItemDetail.find({item_id: req.query.item_id}, function(err, data){
+      if(err){
+        console.log(err)
+        res.send('OK')
+      } else {
+        console.log(data)
+        res.json(data)
+      }
+    })
+  }
 })
 
 app.delete("/api/itemsale", function(req, res){

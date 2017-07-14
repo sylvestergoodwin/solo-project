@@ -6,7 +6,7 @@ import SearchItem from '../Search/SearchItem'
 // based on some criteria
 export default React.createClass({
 	render(){
-		var search = ['blue']
+		var search = ['Blue']
 		return (
 			<div>
 				<SearchItem

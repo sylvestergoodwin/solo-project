@@ -1,19 +1,45 @@
 import React from 'react'
 import BtnDefault from '../Generic/BtnDefault'
+import axios from 'axios'
 
 export default React.createClass({
 	getInitialState(){
 		return ({
 			item_id: this.props.itemdetail.item_id,
-			name: this.props.itemdetail.name,
+			title: this.props.itemdetail.title,
 			description: this.props.itemdetail.description,
 			list_price: this.props.itemdetail.list_price,
 			sale_price: this.props.itemdetail.sale_price,
 			quantity: this.props.itemdetail.quantity,
-			filelocation: this.props.itemdetail.filelocation,
+			link: this.props.itemdetail.link,
 			keywords: this.props.itemdetail.keywords
 		})
 	},
+
+	setItemdetail(item){
+		this.setState({
+			description: item.description,
+			link: item.link,
+			title: item.title,
+			keywords: item.keywords
+		})
+	},
+
+	componentDidMount(){
+		const setItem = this.setItemdetail
+		axios.get('/api/itemdetail', {
+				params: {
+				  item_id: this.state.item_id
+				}
+			})
+			.then(function (result){
+
+				console.log(result)
+				const item = result.data[0]
+				setItem(item)
+			})
+	},
+
 	onSubmit(){
 		alert('on submit')
 		this.props.action.onSubmit({
@@ -23,14 +49,15 @@ export default React.createClass({
 			list_price: this.state.list_price,
 			sale_price: this.state.sale_price,
 			quantity: this.state.quantity,
-			filelocation: this.state.filelocation,
+			link: this.state.link,
+			title: this.title,
 			keywords: this.state.keywords})
 	},
 	onCancel(){
 		this.props.action.onCancel()
 	},
 	onNameChanged(event){
-		this.setState({name: event.target.value})
+		this.setState({title: event.target.value})
 	},
 	onDescriptionChanged(event){
 		this.setState({description: event.target.value})
@@ -42,7 +69,7 @@ export default React.createClass({
 		this.setState({list_price: event.target.value})
 	},
 	onFileLocationChanged(event){
-		this.setState({filelocation: event.target.value})
+		this.setState({link: event.target.value})
 	},
 	onKeywordChanged(event){
 		this.setState({keywords: event.target.value})
@@ -62,7 +89,7 @@ export default React.createClass({
 								<input id="icon_prefix1"
 									type="text"
 									name="itemname"
-									value = {this.state.name}
+									value = {this.state.title}
 									onChange={this.onNameChanged}
 								/>
 								<label htmlFor="icon_prefix1"><i><b>Item Name</b></i></label>
@@ -113,7 +140,7 @@ export default React.createClass({
 								<input id="icon_prefix6"
 									type="text"
 									name="ImageFile"
-									value = {this.state.filelocation}
+									value = {this.state.link}
 									onChange={this.onFileLocationChanged}
 								/>
 								<label htmlFor="icon_prefix6"><i><b> Image File:</b></i></label>
