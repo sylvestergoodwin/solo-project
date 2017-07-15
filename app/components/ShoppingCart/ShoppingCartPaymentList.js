@@ -13,6 +13,7 @@ export default React.createClass({
 			buildComponentList: this.buildComponentList
 		})
 	},
+
 	onSelect(payment_id){
 		const setPayment = this.setPayment
 
@@ -26,38 +27,37 @@ export default React.createClass({
 				// navigate to the address list
 				const payment = result.data[0]
 				setPayment(payment)
-
-				console.log(payment)
+				//console.log(payment)
 			} )
 			.catch( function ( error ) {
 				console.log( error );
 			} );
-
 		this.setState({activeComponent: 'Display'})
-
 	},
+
 	setPayment(payment){
-		alert(payment.payment_id)
+//		alert(payment.payment_id)
 			this.setState( {
 				 payment: payment,
 				activeComponent: 'Display'
 			} )
 			this.props.action(payment)
 	},
+
 	onNew(){
 		this.props.action.onNew()
 	},
+
 	onCancel(){
 		this.props.action.onCancel()
 	},
 
-		buildComponentList( paymentlist,  paymentAdrray) {
+	buildComponentList( paymentlist,  paymentAdrray) {
 	    this.setState( {
 	      paymentList: paymentlist,
 				paymentArray: paymentAdrray
 	    } )
 	  },
-
 
 		componentDidMount(){
 			// get the list of paymentData for the user based on the this.props.userInfo.user_id
@@ -72,7 +72,7 @@ export default React.createClass({
 					}
 				})
 				.then(function (results) {
-					console.log(results.data)
+//					console.log(results.data)
 					const payments = results.data.map(function(payment){
 						return (<div>
 									<div className="row hoverable">
@@ -89,6 +89,7 @@ export default React.createClass({
 															tooltipposition="below"
 															tooltip="Select"
 															buttonicon="check_circle"
+															key={payment.payment_id}
 															data_item_key={payment.payment_id}
 														/>
 													</div>
@@ -99,9 +100,7 @@ export default React.createClass({
 								</div>
 							)
 					});
-
 	        buildComponentList( payments,  results.data)
-
 				})
 				.catch(function (error) {
 					console.log(error);
@@ -128,11 +127,7 @@ export default React.createClass({
 		}
 		return (
 			<div>
-				<div>
-					<div> {paymentDetail} </div>
-					<div>
-					</div>
-				</div>
+				<div> {paymentDetail} </div>
 			</div>
 
 		)

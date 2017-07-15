@@ -7,7 +7,6 @@ import Search from './components/Search/SearchItem'
 import PaymentInfo from './components/PaymentInfo/PaymentInfo'
 import PaymentInfoMaintenance from './components/PaymentInfo/PaymentInfoMaintenance'
 import Item from './components/Item/Item'
-import User from './components/User/User'
 import ShoppingCart from './components/ShoppingCart/ShoppingCart'
 import NavButton from './components/Generic/NavButton'
 

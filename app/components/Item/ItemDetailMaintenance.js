@@ -17,7 +17,7 @@ export default React.createClass({
 	},
 
 	setItemdetail(item){
-		console.log(item)
+		//		console.log(item)
 		this.setState({
 			description: item.description,
 			link: item.link,
@@ -34,15 +34,15 @@ export default React.createClass({
 				}
 			})
 			.then(function (result){
-					console.log(result)
+					//console.log(result)
 					const item = result.data[0]
 					setItem(item)
 			})
 	},
 
 	onSubmit(){
-		alert('on is submit')
-		console.log(this.state)
+		//alert('on is submit')
+		//console.log(this.state)
 		this.props.action.onSubmit({
 			item_id: this.state.item_id,
 			title: this.state.title,
@@ -79,14 +79,13 @@ export default React.createClass({
 	},
 
 	render(){
-		console.log(this.props)
-		console.log(this.state)
+		//console.log(this.props)
+		//console.log(this.state)
 		return (
 			<div className="row hoverable">
 			<div className = 'container'>
 					<div className="col s12">
 						<div className="card-panel">
-
 							<div className="col s12">
 								<input id="icon_prefix1"
 									type="text"
@@ -96,7 +95,6 @@ export default React.createClass({
 								/>
 								<label htmlFor="icon_prefix1"><i><b>Item Name</b></i></label>
 							</div>
-
 							<div className=" col s12">
 								<textarea id="icon_prefix2"
 									className="materialize-textarea"
@@ -106,8 +104,6 @@ export default React.createClass({
 								</textarea>
 								<label htmlFor="icon_prefix2"><i><b>Description</b></i></label>
 							</div>
-
-
 							<div className="col s12">
 								<input id="icon_prefix3"
 									type="number"
@@ -117,7 +113,6 @@ export default React.createClass({
 								/>
 								<label htmlFor="icon_prefix3"><i><b> Sale Price:</b></i></label>
 							</div>
-
 							<div className="col s12">
 								<input id="icon_prefix4"
 									type="number"
@@ -127,7 +122,6 @@ export default React.createClass({
 								/>
 								<label htmlFor="icon_prefix4"><i><b> List Price:</b></i></label>
 							</div>
-
 							<div className="col s12">
 								<input id="icon_prefix5"
 									type="number"
@@ -137,7 +131,6 @@ export default React.createClass({
 								/>
 								<label htmlFor="icon_prefix5"><i><b> Quantity:</b></i></label>
 							</div>
-
  							<div className="col s12">
 								<input id="icon_prefix6"
 									type="text"
@@ -147,7 +140,6 @@ export default React.createClass({
 								/>
 								<label htmlFor="icon_prefix6"><i><b> Image File:</b></i></label>
 							</div>
-
    						<div className="col s12">
 								<input id="icon_prefix7"
 									type="text"

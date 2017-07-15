@@ -56,28 +56,25 @@ export default React.createClass({
 	},
 	render(){
 		let allowBuy = <div></div>
-
 		if (this.props.navcontrol != 'Item'){
-
-			allowBuy = <div> <hr/> <BtnDefault action={this.onBuy}
-										tooltipposition=""
-										tooltip="Add to shopping cart"
-										buttonicon="shopping_cart"
-									/>
-
-		 <span className="col s3  right">
-											<input id="icon_prefix1"
-												type="number"
-												name="quantity"
-												value = {this.state.buyamount}
-												onChange={this.onQuantityChanged}/>
-											<label htmlFor="icon_prefix1"><i><b>Order</b></i></label>
-										</span>
-									</div>
-		}else {
-
+			allowBuy = <div>
+					<hr/>
+					<BtnDefault action={this.onBuy}
+						tooltipposition=""
+						tooltip="Add to shopping cart"
+						buttonicon="shopping_cart"
+					/>
+		 			<span className="col s3  right">
+						<input id="icon_prefix1"
+							type="number"
+							name="quantity"
+							value = {this.state.buyamount}
+							onChange={this.onQuantityChanged}
+						/>
+						<label htmlFor="icon_prefix1"><i><b>Order</b></i></label>
+					</span>
+				</div>
 		}
-
 		return (
 			<div className="item-base">
 				<div className="card">
@@ -101,7 +98,6 @@ export default React.createClass({
 						<p><b><i>List Price:</i></b> ${this.state.itemdetail.list_price} </p>
 						<p><b><i>Sale Price:</i></b> ${this.state.itemdetail.sale_price} </p>
 						<p><b><i>Available Quantity:</i></b> {this.state.itemdetail.quantity} </p>
-
 						<div>
 							{allowBuy}
 						</div>

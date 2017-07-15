@@ -5,8 +5,6 @@ import ItemDetailList from './ItemDetailList'
 import BtnDefault from '../Generic/BtnDefault'
 import axios from 'axios'
 
-
-
 export default React.createClass({
 	getInitialState(){
 		return ({itemlist: [],
@@ -22,32 +20,31 @@ export default React.createClass({
 	    activeComponent: 'Edit'
 	  })
 	},
-	onBuy(item_id){
-		alert("Buy "+item_id)
-	},
 	onSubmit(item){
 		if ( typeof item.item_id === 'undefined' ) {
-			console.log('item posting')
-			console.log(item)
+		//	console.log('item posting')
+		//	console.log(item)
 			axios.post('/api/item', item)
 				.then(function (response) {
-					console.log(response);
+					this.setState( {activeComponent: 'List'} )
+					//console.log(response);
 					})
 				.catch(function (error) {
 					console.log(error);
+					this.setState( {activeComponent: 'List'} )
 					});
 		} else {
-			console.log(item)
+		///	console.log(item)
 			axios.put('/api/item', item)
 				.then(function (response) {
-					console.log(response);
+					//console.log(response);
+					this.setState( {activeComponent: 'List'} )
 					})
 				.catch(function (error) {
 					console.log(error);
+					this.setState( {activeComponent: 'List'} )
 					});
 		}
-		//navigate to AddressList
-		this.setState( {activeComponent: 'List'} )
 	},
 
 	onNew(){
@@ -65,27 +62,18 @@ export default React.createClass({
 		})
 	},
 
-	onSelect(item_id){
-		//*********************************************************
-		//********** MOCK UP DATA REMOVED WHEN API IMPLEMENTED
-		alert('onSelect item '+item_id)
-		//**********
-		//*********************************************************
-	},
-
 	onDelete(item_id){
     // post delete of address with the key
     axios.delete('/api/item', {data: {item_id: item_id}})
       .then(function (response) {
-        console.log(response);
+//        console.log(response);
+					this.setState( {activeComponent: 'List'} )
         })
       .catch(function (error) {
         console.log(error);
+				this.setState( {activeComponent: 'List'} )
         });
-
     // navigate to the item list
-    this.setState( {activeComponent: 'List'} )
-
 	},
 	onCancel(){
 		this.setState({activeComponent: 'List'})
@@ -93,7 +81,6 @@ export default React.createClass({
 
 	onEdit(item_id){
 		    const setItem = this.setItem
-
 		    axios.get( '/api/item', {
 		        params: {
 		          item_id: item_id,
@@ -102,19 +89,20 @@ export default React.createClass({
 		      } )
 		      .then( function ( result ) {
 		        const item = result.data[0]
-						console.log(item)
+						this.setState( {activeComponent: 'List'} )
 		        setItem(item)
 		      } )
 		      .catch( function ( error ) {
 		        alert( 'failed' )
+						//this.setState( {activeComponent: 'List'} )
 		      } );
 	},
 
 	buildComponentList( itemList,  itemArray) {
-    this.setState( {
+    this.setState({
       itemList: itemList,
 			itemArray: itemArray
-    } )
+    })
   },
 
 	componentDidMount(){
@@ -142,9 +130,8 @@ export default React.createClass({
 			})
 			.then(function (result) {
 				const itemArray = result.data.map(function(item){
-					console.log(item)
 					return (
-							<div className="item-detail-display">
+							<div className=" container item-detail-display">
 								<div className="row hoverable left">
 									<div className="col s12">
 										<div className="card-panel">
@@ -189,7 +176,6 @@ export default React.createClass({
 	},
 
 	render(){
-
 		if (this.state.activeComponent == 'New')
 		{
 			return (

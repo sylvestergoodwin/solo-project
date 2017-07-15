@@ -19,12 +19,13 @@ export default React.createClass({
 			itemList: [],
 			itemArray: [],
 			address: {},
-			payment: {}
+			payment: {},
+			buybutton: true
 		}
 	},
 	onBuy(){
 		const user_id = this.props.userinfo.user_id
-
+		this.setState({buybutton: true})
 		axios.post('/api/buy', {
 				user_id: user_id,
 				payment_id: this.state.payment.payment_id,
@@ -40,6 +41,7 @@ export default React.createClass({
 			.catch(function (error) {
 				console.log(error);
 				});
+
 	},
 	onDelete(iteminfo){
 		alert(iteminfo.itemsale_id)
@@ -50,7 +52,6 @@ export default React.createClass({
 				}
 			})
 			.then(function (response) {
-				console.log(response);
 				})
 			.catch(function (error) {
 				console.log(error);
@@ -198,14 +199,20 @@ export default React.createClass({
 						itemArray={this.state.itemArray}
 						userinfo={this.props.userinfo}
 					/>
-					<BtnDefault action={this.onBuy}
-						tooltipposition="below"
-						tooltip="Complete Purchase"
-						buttonicon="send"
-						data_item_key="null"
-					/>
+					{buybutton}
 				</div>
 			</div>
+		}
+		if (this.state.sold) {
+			buybutton = <div></div>
+		}
+		else {
+			buybutton = <BtnDefault action={this.onBuy}
+				tooltipposition="below"
+				tooltip="Complete Purchase"
+				buttonicon="send"
+				data_item_key="null"
+			/>
 		}
 		return(
 			<div>

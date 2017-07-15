@@ -27,10 +27,6 @@ export default React.createClass({
 			} )
 	},
 
-	onSelect(payment_id){
-		PaymentInfoUtils.loadPaymentInfoByID(payment_id)
-	},
-
 	onDelete(payment_id){
 		alert('pay delete')
 		axios.delete('/api/paymentinfo', {data: {payment_id: payment_id}})
@@ -99,6 +95,7 @@ export default React.createClass({
 					})
 				.catch(function (error) {
 					console.log(error);
+					this.setState({activeComponent: 'List'})
 					});
 		}
 		this.setState({activeComponent: 'List'})
@@ -187,7 +184,7 @@ export default React.createClass({
 		if(	this.state.activeComponent == 'List'){
 			return (
 				<div>
-					<div><h3><i>Credit Card List</i></h3></div>
+					<div><h5><i>Credit Card List</i></h5></div>
 					<PaymentInfoList
 						paymentlist={this.state.paymentList}
 						userinfo={this.props.userinfo}
@@ -197,7 +194,7 @@ export default React.createClass({
 	} else if(this.state.activeComponent == 'Edit'){
 			return (
 				<div>
-					<div><h3><i>Credit Card Maintenance</i></h3></div>
+					<div><h5><i>Credit Card Maintenance</i></h5></div>
 					<PaymentInfoMaintenance
 						paymentdetail={payment}
 						userinfo={this.props.userinfo}
@@ -208,7 +205,7 @@ export default React.createClass({
 	} else if(this.state.activeComponent == 'New'){
 			return (
 				<div>
-					<div><h3><i>Enter Credit Card Information</i></h3></div>
+					<div><h5><i>Enter Credit Card Information</i></h5></div>
 					<PaymentInfoMaintenance
 						paymentdetail={this.state.payment}
 						userinfo={this.props.userinfo}

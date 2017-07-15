@@ -12,8 +12,8 @@ export default React.createClass({
 		return (
 			<div className="container">
 				<div>
-					{this.props.itemlist}<
-				/div>
+					{this.props.itemlist}
+				</div>
 				<div>
 					<div className="col s1">
 						<BtnDefault action={this.onNew}

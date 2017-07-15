@@ -211,19 +211,14 @@ export default React.createClass( {
     if ( this.state.activeComponent == 'List' ) {
       return (
 				<div>
-          <div><h3><i>Address List</i></h3></div>
+          <div><h5><i>Address List</i></h5></div>
           {this.state.addressList}
-					< AddressList
-					 	addresslist = {this.state.addressList}
-	        	actionlist = {this.state.actionlist}
-            userinfo= {this.props.userinfo}
-	        />
 				</div>
       )
 		}else if (this.state.activeComponent == 'Edit'){
 			return (
 				<div>
-          <div><h3><i>Address Maintenancr</i></h3></div>
+          <div><h5><i>Address Maintenancr</i></h5></div>
         	<AddressMaintenance
 						address = {this.state.addr}
         		actionlist = {this.state.actionlist}
@@ -235,7 +230,7 @@ export default React.createClass( {
     } else if (this.state.activeComponent=='New'){
       return (
 				<div >
-          <div><h3><i>Enter Address</i></h3></div>
+          <div><h5><i>Enter Address</i></h5></div>
         	<AddressMaintenance
 						address = {this.state.addr}
         		actionlist = {this.state.actionlist}

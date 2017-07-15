@@ -44,7 +44,7 @@ mongodb.once("open", function() {
 var mysqldb = require("./server/db/mysql/models");
 
 // Syncing our sequelize models and then starting our express app
-mysqldb.sequelize.sync({ force: true })
+mysqldb.sequelize.sync({ force: false })
 	.then(function() {
 		console.log("mysql Connection Successfull");
     console.log("----------------------------------------------------------------.");
@@ -101,7 +101,6 @@ app.get("/api/address", function(req, res) {
   //console.log(req.query)
 
   if(req.query.address_id == 0){
-    console.log('all')
     mysqldb.Address.findAll({
       where: {
         user_id: req.query.user_id
@@ -146,8 +145,8 @@ app.post("/api/item", function(req, res) {
   // the creation/update of the ItemDetail collection within the MongoDB database. This way the
   // item_id will be used to link the data within the two databases
 
-    console.log("post api/item")
-    console.log(req.body)
+  //  console.log("post api/item")
+  //  console.log(req.body)
 
   // create the mySQL item record
   mysqldb.Item.create({
@@ -155,7 +154,7 @@ app.post("/api/item", function(req, res) {
     sale_price: req.body.sale_price,
     quantity: req.body.quantity
     })
-    .then( (newItem, req) => {
+    .then( (newItem) => {
       // console.log(newItem)
 
       // create the new record within the items MongoDB database ItemDetail collection
