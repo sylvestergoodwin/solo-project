@@ -26,8 +26,8 @@ app.use(express.static("./public"));
 mongoose.connect("mongodb://localhost/soloproject");
 
 // production database
-//mongoose.connect("mongodb://soloproject:soloproject@ds151202.mlab.com:51202/soloproject")
-var mongodb = mongoose.connection;
+mongoose.connect("mongodb://soloproject:soloproject@ds151202.mlab.com:51202/soloproject")
+//var mongodb = mongoose.connection;
 
 mongodb.on("error", function(err) {
   console.log("Mongoose Error: ", err);
